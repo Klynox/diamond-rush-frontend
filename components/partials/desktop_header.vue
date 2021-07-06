@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import NavProfile from "./nav-profile.vue";
+import NavProfile from "@/components/partials/nav-profile.vue";
 export default {
   components: {
     NavProfile,

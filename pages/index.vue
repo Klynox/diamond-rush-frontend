@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import WalletInfo from '../components/wallets';
-import MobileHeader from "../components/partials/mobile_header";
-import NavProfile from "../components/partials/nav-profile";
-import GameBoard from "../components/game/gameboard";
+import WalletInfo from '@/components/wallets';
+import MobileHeader from "@/components/partials/mobile_header";
+import NavProfile from "@/components/partials/nav-profile";
+import GameBoard from "@/components/game/gameboard";
 export default {
   components: {
     MobileHeader,

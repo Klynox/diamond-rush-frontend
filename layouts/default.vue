@@ -8,8 +8,8 @@
   </div>
 </template>
 <script>
-import DesktopHeader from "../components/partials/desktop_header";
-import WalletDialogs from "../components/dialogs/wallet-dialogs";
+import DesktopHeader from "@/components/partials/desktop_header";
+import WalletDialogs from "@/components/dialogs/wallet-dialogs";
 export default {
   components: {
     DesktopHeader,
