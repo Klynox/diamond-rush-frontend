@@ -2,20 +2,6 @@
   <div>
     <b-modal hide-footer id="depositDialog" title="Quick Deposit">
       <div class="d-block text-center">
-        <h4 class="input-info">Enter amount to deposit</h4>
-        <div class="form-group d-flex col-9 col-sm-8 mx-auto">
-          <input
-            type="tel"
-            placeholder="20.00"
-            v-model="depositForm.amount"
-            class="form-control"
-          />
-          <label
-            class="text-center"
-            style="line-height: 3; margin-left: 0.43rem"
-            >USD</label
-          >
-        </div>
         <div class="form-caption">
           Send <span>0.3 $CLout ≈ $20 USD</span> to this public key
         </div>
