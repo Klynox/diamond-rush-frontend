@@ -33,9 +33,9 @@
 </template>
 <style scoped>
 .xvhMBoard-box {
-  width: 36rem;
+  width: 40rem;
   max-width: 100%;
-  padding: 1.3rem;
+  padding: 2.5rem 1.3rem 1.3rem 1.3rem;
   margin-top: 2.4rem;
   border: 1px solid #a7178f;
   background: #a7178f linear-gradient(232deg, #a7178f 0%, #2b1097 100%) 0%
