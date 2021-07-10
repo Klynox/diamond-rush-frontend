@@ -1,13 +1,13 @@
 <template>
   <div class="container-pc">
     <div class="d-flex flex-row justify-content-between">
-      <div class="col-lg-4 mx-auto d-none d-lg-block">
+      <div class="other-smaller-board mx-auto d-none d-lg-block">
         <ParticipantsBoard />
       </div>
       <GamePlayBoard />
       <div
         class="
-          col-lg-4
+          other-smaller-board
           d-none d-lg-flex
           mx-auto
           flex-column
@@ -52,4 +52,8 @@ export default {
 };
 </script>
 <style scoped>
+.other-smaller-board {
+  width: 30rem;
+  max-width: 33.333333%;
+}
 </style>
