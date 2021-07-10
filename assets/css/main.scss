@@ -1,0 +1,232 @@
+@import "./components/variables";
+*,
+*::before,
+*::after {
+  transition: all 0.3s ease-in-out;
+}
+body {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #fff;
+  font-family: "SansationRegular", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+::-moz-selection {
+  background: $selection-color;
+  color: #fff;
+}
+
+::selection {
+  background: $selection-color;
+  color: #fff;
+}
+
+::-moz-selection {
+  background: $selection-color;
+  color: #fff;
+}
+.bg {
+  width: 100%;
+  min-height: 100vh;
+  background-color: $primary-background;
+  background-attachment: fixed;
+  background: $background-top -moz-linear-gradient(
+      180deg,
+      $background-top 0%,
+      $background-botom 100%
+    ) 0% 0% no-repeat padding-box;
+  background: $background-top -webkit-linear-gradient(
+      180deg,
+      $background-top 0%,
+      $background-botom 100%
+    ) 0% 0% no-repeat padding-box;
+  background: #9996a5 -o-linear-gradient(
+      180deg,
+      $background-top 0%,
+      $background-botom 100%
+    ) 0% 0% no-repeat padding-box;
+  background: $background-top
+    linear-gradient(180deg, $background-top 0%, $background-botom 100%) 0% 0%
+    no-repeat padding-box;
+  opacity: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$primary-shade",endColorstr="$background-botom",GradientType=1);
+}
+@font-face {
+  font-family: "SansationBold";
+  src: url("/fonts/sansation_bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "SansationLight";
+  src: url("/fonts/sansation_light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "SansationRegular";
+  src: url("/fonts/sansation_regular.ttf") format("truetype");
+}
+.bnvc-wrapping,
+.mnvcD-wrapper {
+  width: 100%;
+  padding: 2.4rem 0.95rem 1.23rem 0.95rem;
+  margin-top: 15rem;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background: $background-top
+    linear-gradient(180deg, $background-top 0%, $background-botom 100%) 0% 0%
+    no-repeat padding-box;
+}
+.mnvcD-wrapper {
+  min-height: 40rem;
+  margin-top: 0 !important;
+  .mnvcD-heading {
+    text-align: center;
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  .mvcD-game-card {
+    height: 10rem;
+    &:nth-of-type(3),
+    &:nth-of-type(4) {
+      margin-top: 1.83rem;
+    }
+  }
+  .mvcD-game-action-section {
+    margin-top: 2.8rem;
+
+    .xvhM-action-btn {
+      padding: 0.58rem 1.66rem;
+      min-width: 9.5rem;
+      max-height: 3.75rem;
+      text-align: center;
+      outline: 0 !important;
+      background: #a7178f linear-gradient(258deg, #a7178f 0%, #2b1097 100%) 0%
+        0% no-repeat padding-box;
+      border: 1px solid #b19eff;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+  }
+}
+.bnvc-container,
+.mnvcD-container {
+  background-image: url("/images/bnvc-background-poligon.png");
+  background-size: 100% 30rem;
+  background-position: top left;
+  background-repeat: no-repeat;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+hr {
+  margin-bottom: 0.35rem;
+  margin-top: 0.2rem;
+  border-top: solid 2px rgba(153, 94, 193, 0.9);
+}
+hr.sm {
+  border-top-width: 1px;
+}
+.diamond-hands-notice {
+  max-height: 51rem;
+  .profile-image {
+    width: 3.75rem;
+      height: 3.75rem;
+      border: solid 0.063px #c2c1c9;
+      border-radius: 50%;
+  }
+  .hands-image {
+    width: 19.7rem;
+  }
+  h1 {
+    font-size: 1.89rem;
+    letter-spacing: 1px;
+    &.active {
+      color: $seconday-color;
+    }
+  }
+}
+@media (max-width: 36.25rem) {
+  .display-mobile-flex {
+    display: flex !important;
+  }
+  .display-mobile {
+    display: block !important;
+  }
+  .display-pc-flex,
+  .display-pc {
+    display: none !important;
+  }
+}
+@media (min-width: 36.313rem) {
+  .container-pc {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .display-mobile,
+  .display-mobile-flex {
+    display: none !important;
+  }
+  .display-pc-flex {
+    display: flex !important;
+  }
+  .display-pc {
+    display: block !important;
+  }
+  .bnvc-wrapping {
+    min-height: auto;
+    padding: initial;
+    border-top-left-radius: initial;
+    border-top-right-radius: initial;
+    background: initial;
+  }
+  .bnvc-container {
+    background-image: initial;
+    background-size: initial;
+    background-position: initial;
+  }
+  .small-board {
+    max-width: 34.15rem;
+  }
+}
+.xpdV-hero {
+  margin-top: 3.5rem;
+  margin-bottom: 2.8rem;
+  text-align: center;
+}
+.xpdv-dmd {
+  width: 250px;
+  margin-left: -35px;
+}
+.hxdp-info {
+  margin-bottom: 0.8rem;
+  span,
+  a {
+    color: $background-top;
+    letter-spacing: 0;
+    padding: 0 0.5rem;
+    text-align: left;
+    font-size: 0.83rem;
+    line-height: 0.9rem;
+    text-decoration: none;
+    img.icon {
+      width: 0.7rem;
+      height: 0.7rem;
+    }
+  }
+}
+@media (max-width: 20.875rem) {
+  .mnvcD-wrapper {
+    .mvcD-game-card {
+      height: auto;
+    }
+  }
+}
+@media (min-width: 1340px) {
+  .container-pc {
+    max-width: 1290px;
+  }
+}

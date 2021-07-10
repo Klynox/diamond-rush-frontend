@@ -13,7 +13,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import WalletInfo from '@/components/wallets';
 import MobileHeader from "@/components/partials/mobile_header";

@@ -2,7 +2,7 @@
   <div
     class="
       d-flex
-      flex-row
+      flex-row mb-5
       justify-content-between
       nav-container
       display-pc-flex

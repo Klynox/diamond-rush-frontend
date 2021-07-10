@@ -14,7 +14,7 @@
             ></span
           >
         </div>
-        <button type="button" class="btn xvhM-action-btn">Play</button>
+        <nuxt-link to="/games/1" type="button" class="btn xvhM-action-btn">Play</nuxt-link>
         <div class="d-flex flex-column action-btn-info">
           <span>Round starts</span>
           <span
