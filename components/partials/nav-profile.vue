@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex">
-    <ul class="d-flex flex-row list-unstyled display-pc-flex">
+  <div class="d-flex align-items-center">
+    <ul class="d-flex align-items-center flex-row list-unstyled display-pc-flex">
       <li class="nav-dhlB">
         <a class="" href="javascript:void(0)" type="button" @click="toggleWithdrawalModal"
           ><img src="/images/wMxy-withdrawal.svg" alt="withdrawal" />Withdraw

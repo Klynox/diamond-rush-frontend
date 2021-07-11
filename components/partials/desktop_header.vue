@@ -2,15 +2,17 @@
   <div
     class="
       d-flex
-      flex-row mb-5
+      flex-row
+      mb-5
       justify-content-between
       nav-container
-      display-pc-flex
+      display-pc-flex align-items-center
     "
   >
-    <nuxt-link to="/"
-      ><img src="/images/logo.svg" class="logo" alt="Diamond Rush"
-    /></nuxt-link>
+    <nuxt-link class="d-flex align-items-center logo-wrapper" to="/">
+      <img src="/images/logo.svg" class="logo" alt="Diamond Rush" />
+      <span class="d-none d-md-block">DiamondRush</span>
+    </nuxt-link>
     <NavProfile />
   </div>
 </template>
@@ -32,5 +34,19 @@ export default {
 .logo {
   width: 1.875rem;
   height: 1.875rem;
+}
+.logo-wrapper {
+  text-decoration: none;
+}
+.logo-wrapper span {
+  font-size: 1.08rem;
+  margin-left: 0.5rem;
+  letter-spacing: 1px;
+  color: #fff;
+}
+@media (max-width: 49.375rem) {
+  .logo-wrapper span {
+    font-size: 0.8rem;
+  }
 }
 </style>
