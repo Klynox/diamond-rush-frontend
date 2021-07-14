@@ -52,6 +52,26 @@
         </button>
       </div>
     </b-modal>
+    <b-modal hide-footer id="insufficientBalanceAlertDialog" title="Balance Alert">
+      <div class="d-block text-center">
+        <div class="form-caption">
+          You do not sufficient balance to play this game.<br>
+          Fund your gaming account by sending Bitclout to this public key to be able to participate.
+        </div>
+        <div
+          class="col-11 mx-auto payment-information"
+          @click="copyCloutAddress"
+        >
+          <input
+            type="hidden"
+            id="depositCloutAddress"
+            :value="depositCloutAddress"
+          />
+          <span class="copy-text">{{ depositCloutAddress }}</span>
+          <img src="/images/copy.svg" alt="copy" />
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>

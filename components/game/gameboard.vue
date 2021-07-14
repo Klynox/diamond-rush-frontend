@@ -1,36 +1,63 @@
 <template>
-  <div class="d-flex flex-column align-items-center mx-auto xvhMBoard-box">
+  <div class="d-flex flex-column align-items-center mx-auto xvhMBoard-box" v-if="new Date(game.endsAt.toDate()) > new Date()">
     <h2 class="xvhM">Be the 1st to attain "Diamond Hands"</h2>
     <img src="/images/xvhM-diamond.svg" class="diamond-xvhM" />
     <h3 class="xvhM-game-title">Battle Royale</h3>
-    <p class="xvhM-game-type">11 Player PVP</p>
-    <h2 class="px-3 xvhM-pricing">Prize: 0.59 $Clout &#8776; $100 USD</h2>
+    <p class="xvhM-game-type">{{game.expectedParticipants}} Player PVP</p>
+    <h2 class="px-3 xvhM-pricing">Prize: {{game.price}} &dollar;Clout &#8776; ${{game.priceInDollar}} USD</h2>
     <div class="xvhM-action-section">
       <div class="d-flex flex-row">
         <div class="d-flex flex-column action-btn-info left">
           <span>Participants</span>
           <span
-            ><span class="action-countdown">0/11</span
+            ><span class="action-countdown">0/{{game.expectedParticipants}}</span
             ></span
           >
         </div>
-        <nuxt-link to="/games/1" type="button" class="btn xvhM-action-btn">Play</nuxt-link>
+        <nuxt-link :to="'/games/'+game.gameId" type="button" class="btn xvhM-action-btn" v-if="user && balance >= game.entryFee">Play</nuxt-link>
+        <a href="javascript:void(0)" @click="toggleInsufficientBalanceDialog" type="button" class="btn xvhM-action-btn" v-else-if="user && balance < game.entryFee">Play</a>
+        <nuxt-link to="/sign-up" type="button" class="btn xvhM-action-btn" v-else>Play</nuxt-link>
         <div class="d-flex flex-column action-btn-info">
           <span>Round starts</span>
           <span
-            ><span class="action-countdown">04:32</span
+            ><span class="action-countdown"><CountDownTime :countdownTime="game.endsAt.toDate()"/></span
             ><span>min(s)</span></span
           >
         </div>
       </div>
       <div class="my-3 d-flex flex-row justify-content-between xvhM-game-info">
         <span>Entry Fee:</span>
-        <span>0.059 $Clout</span>
-        <span>&#8776; $10 USD</span>
+        <span>{{game.entryFee}} &dollar;Clout</span>
+        <span>&#8776; &dollar;{{game.entryFeeInDollar}} USD</span>
       </div>
     </div>
   </div>
 </template>
+<script>
+import CountDownTime from '@/components/countdown';
+export default {
+  props: ['game'],
+  components:{
+    CountDownTime
+  },
+  computed: {
+    user(){
+      return this.$store.getters.activeUser;
+    },
+    balance() {
+      return this.$store.state.wallet.balance;
+    },
+  },
+  methods: {
+    toggleInsufficientBalanceDialog() {
+      this.$bvModal.show("insufficientBalanceAlertDialog");
+    },
+    playGame(){
+      
+    }
+  }
+}
+</script>
 <style scoped>
 .xvhMBoard-box {
   width: 40rem;
@@ -118,7 +145,7 @@
 .action-btn-info.left span {
   text-align: right;
 }
-.action-btn-info .action-countdown {
+.action-btn-info .action-countdown * {
   font-size: 0.86rem;
   font-weight: bold;
   margin-right: 0.313rem;

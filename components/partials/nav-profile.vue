@@ -1,13 +1,24 @@
 <template>
   <div class="d-flex align-items-center">
-    <ul class="d-flex align-items-center flex-row list-unstyled display-pc-flex">
+    <ul
+      v-if="user"
+      class="d-flex align-items-center flex-row list-unstyled display-pc-flex"
+    >
       <li class="nav-dhlB">
-        <a class="" href="javascript:void(0)" type="button" @click="toggleWithdrawalModal"
+        <a
+          class=""
+          href="javascript:void(0)"
+          type="button"
+          @click="toggleWithdrawalModal"
           ><img src="/images/wMxy-withdrawal.svg" alt="withdrawal" />Withdraw
         </a>
       </li>
       <li class="nav-dhlB">
-        <a class="" href="javascript:void(0)" type="button" @click="toggleDepositModal"
+        <a
+          class=""
+          href="javascript:void(0)"
+          type="button"
+          @click="toggleDepositModal"
           ><img src="/images/wMxy-deposit.svg" alt="deposit" />Deposit
         </a>
       </li>
@@ -16,23 +27,48 @@
           <span class="wMxY-balance-title"
             >Balance:
             <span style="font-size: 0.74rem; color: #fff"
-              >1.057474950 $Clout</span
+              >{{balance}} $Clout</span
             ></span
           >
-          <span class="wMxy-balance-usd">&#8776; &dollar;140 USD</span>
+          <span class="wMxy-balance-usd">&#8776; &dollar;{{balanceIndollars}} USD</span>
         </div>
       </li>
     </ul>
-    <div class="d-inline-block">
+    <ul class="d-flex align-items-center flex-row list-unstyled" v-else>
+      <li class="nav-dhlB">
+        <a
+          class=""
+          href="javascript:void(0)"
+          type="button"
+          @click="toggleWithdrawalModal"
+          >Sign In
+        </a>
+      </li>
+      <li class="nav-dhlB">
+        <nuxt-link to="/sign-up">Sign Up </nuxt-link>
+      </li>
+    </ul>
+    <div class="d-inline-block" v-if="user">
       <div class="d-flex flex-row nav-profile">
-        <img src="/images/profile-placeholder-bhl.png" alt="Ugochukwu" />
-        <span>Ugochukwu</span>
+        <img src="/images/profile-placeholder-bhl.png" :alt="user.username" />
+        <span>{{user.username}}</span>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
+  computed: {
+    user() {
+      return this.$store.getters.activeUser;
+    },
+    balance(){
+      return this.$store.state.wallet.balance;
+    },
+    balanceIndollars(){
+      return this.$store.state.wallet.usdEquivalent;
+    }
+  },
   methods: {
     toggleDepositModal() {
       this.$bvModal.show("depositDialog");

@@ -1,11 +1,11 @@
 <template>
   <div class="d-flex fle-row justify-content-between mb-4 display-mobile-flex">
-    <div class="d-flex flex-column wMxY-balance">
+    <div v-if="user" class="d-flex flex-column wMxY-balance">
       <span class="wMxY-balance-title">Balance: </span
-      ><span>1.057474950 $Clout</span>
-      <span class="wMxy-balance-usd">&#8776; &dollar;140 USD</span>
+      ><span>{{balance}} &dollar;Clout</span>
+      <span class="wMxy-balance-usd">&#8776; &dollar;{{balanceIndollars}} USD</span>
     </div>
-    <div class="d-flex flex-column wMxY-actions">
+    <div v-if="user" class="d-flex flex-column wMxY-actions">
       <a href="javascript:void(0)" type="button" @click="toggleDepositModal"
         ><img src="/images/wMxy-deposit.svg" alt="deposit" />Deposit</a
       >
@@ -17,6 +17,17 @@
 </template>
 <script>
 export default {
+  computed: {
+    user() {
+      return this.$store.getters.activeUser;
+    },
+    balance() {
+      return this.$store.state.wallet.balance;
+    },
+    balanceIndollars() {
+      return this.$store.state.wallet.usdEquivalent;
+    },
+  },
   methods: {
     toggleDepositModal() {
       this.$bvModal.show("depositDialog");

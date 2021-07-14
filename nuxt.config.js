@@ -26,7 +26,13 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/fireauth.js',
+    '~/plugins/user_wallet.js',
   ],
+
+  router: {
+    middleware: 'router-auth'
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -40,8 +46,12 @@ export default {
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    'vue-sweetalert2/nuxt',
   ],
+  sweetalert: {
+    confirmButtonColor: '#41b882',
+    cancelButtonColor: '#ff7674'
+  },
 
   publicRuntimeConfig: {
     axios: {
@@ -49,17 +59,9 @@ export default {
     }
   },
 
-  auth: {
-    strategies: {
-      local: {
-        endpoints: {
-          login: { url: 'login', method: 'post', propertyName: 'data.token' },
-          user: { url: 'me', method: 'get', propertyName: 'data' },
-          logout: false
-        }
-      }
-    }
-  },
+  vendor: [
+    'firebase'
+  ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

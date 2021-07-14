@@ -7,7 +7,7 @@
     <div
       class="
         d-flex
-        flex-roŹ
+        flex-row
         justify-content-between
         container-fluid
         align-items-end
