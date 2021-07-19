@@ -1,17 +1,24 @@
 import firebase, { auth, GoogleProvider } from '@/services/fireinit.js'
 
 export const state = () => ({
-    user: null
+    user: null,
+    isLoading: true
 });
 
 export const getters = {
     activeUser: (state, getters) => {
         return state.user;
+    },
+    pageLoading: (state, getters) => {
+        return state.isLoading;
     }
 }
 export const mutations = {
     setUser(state, payload) {
         state.user = payload;
+    },
+    setPageLoader(state, payload) {
+        state.isLoading = payload;
     }
 }
 export const actions = {

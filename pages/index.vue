@@ -6,7 +6,11 @@
         <div class="container">
           <div class="mx-auto">
             <WalletInfo />
-            <GameBoard v-for="(game, index) in games" :game="game" :key="index"/>
+            <GameBoard
+              v-for="(game, index) in games"
+              :game="game"
+              :key="index"
+            />
           </div>
         </div>
       </div>
@@ -31,23 +35,44 @@ export default {
       games: [],
     };
   },
+  computed: {
+    user() {
+      return this.$store.getters.activeUser;
+    },
+  },
   created() {
     this.getGames();
   },
   methods: {
+    checkForParticipation: async function (gameId) {
+      try {
+        this.$axios.post("/check-participant/" + gameId, { userId: this.user.uid });
+        return true;
+      } catch (err) {
+        console.log(err);
+        return false;
+      }
+    },
+    loadGames: async function(gamesSnapshot) {
+      var games = [];
+      gamesSnapshot.forEach(async (doc) => {
+        const gameData = doc.data();
+        gameData.gameId = doc.id;
+        if (this.user) {
+          if (await this.checkForParticipation(doc.id)) {
+            gameData.isParticipant = true;
+          }
+        }
+        games.push(gameData);
+      });
+      
+      this.games = games;
+    },
     getGames: async function () {
       try {
         DB.collection("games")
           .where("status", "==", "INACTIVE")
-          .onSnapshot((gamesSnapshot) => {
-            var games = [];
-            gamesSnapshot.forEach((doc) => {
-              const gameData = doc.data();
-              gameData.gameId = doc.id;
-              games.push(gameData);
-            });
-            this.games = games;
-          });
+          .onSnapshot(this.loadGames);
       } catch (err) {
         console.log(err);
       }

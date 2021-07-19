@@ -53,9 +53,20 @@ export default {
     cancelButtonColor: '#ff7674'
   },
 
+  axios: {
+    baseURL: 'https://us-central1-diamond-rush-b9ad9.cloudfunctions.net/app/api',
+    // proxy: true
+  },
+
   publicRuntimeConfig: {
     axios: {
-      baseURL: 'http://localhost:8001/api/'
+      browserBaseURL: process.env.BROWSER_BASE_URL
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL
     }
   },
 

@@ -1,47 +1,78 @@
 <template>
-  <div class="d-flex flex-column align-items-center mx-auto xvhMBoard-box" v-if="new Date(game.endsAt.toDate()) > new Date()">
+  <div
+    class="d-flex flex-column align-items-center mx-auto xvhMBoard-box"
+    v-if="new Date(game.endsAt.toDate()) > new Date()"
+  >
     <h2 class="xvhM">Be the 1st to attain "Diamond Hands"</h2>
     <img src="/images/xvhM-diamond.svg" class="diamond-xvhM" />
     <h3 class="xvhM-game-title">Battle Royale</h3>
-    <p class="xvhM-game-type">{{game.expectedParticipants}} Player PVP</p>
-    <h2 class="px-3 xvhM-pricing">Prize: {{game.price}} &dollar;Clout &#8776; ${{game.priceInDollar}} USD</h2>
+    <p class="xvhM-game-type">{{ game.expectedParticipants }} Player PVP</p>
+    <h2 class="px-3 xvhM-pricing">
+      Prize: {{ game.price }} &dollar;Clout &#8776; ${{
+        game.priceInDollar
+      }}
+      USD
+    </h2>
     <div class="xvhM-action-section">
       <div class="d-flex flex-row">
         <div class="d-flex flex-column action-btn-info left">
           <span>Participants</span>
           <span
-            ><span class="action-countdown">0/{{game.expectedParticipants}}</span
+            ><span class="action-countdown"
+              >{{ game.numParticipants }}/{{ game.expectedParticipants }}</span
             ></span
           >
         </div>
-        <nuxt-link :to="'/games/'+game.gameId" type="button" class="btn xvhM-action-btn" v-if="user && balance >= game.entryFee">Play</nuxt-link>
-        <a href="javascript:void(0)" @click="toggleInsufficientBalanceDialog" type="button" class="btn xvhM-action-btn" v-else-if="user && balance < game.entryFee">Play</a>
-        <nuxt-link to="/sign-up" type="button" class="btn xvhM-action-btn" v-else>Play</nuxt-link>
+        <nuxt-link
+          :to="'/games/' + game.gameId"
+          type="button"
+          class="btn xvhM-action-btn"
+          v-if="
+            (user && balance >= game.entryFee) || (user && game.isParticipant)
+          "
+          >Play</nuxt-link
+        >
+        <a
+          href="javascript:void(0)"
+          @click="toggleInsufficientBalanceDialog"
+          type="button"
+          class="btn xvhM-action-btn"
+          v-else-if="user && balance < game.entryFee"
+          >Play</a
+        >
+        <nuxt-link
+          to="/sign-up"
+          type="button"
+          class="btn xvhM-action-btn"
+          v-else
+          >Play</nuxt-link
+        >
         <div class="d-flex flex-column action-btn-info">
           <span>Round starts</span>
           <span
-            ><span class="action-countdown"><CountDownTime :countdownTime="game.endsAt.toDate()"/></span
+            ><span class="action-countdown"
+              ><CountDownTime :countdownTime="game.endsAt.toDate()" /></span
             ><span>min(s)</span></span
           >
         </div>
       </div>
       <div class="my-3 d-flex flex-row justify-content-between xvhM-game-info">
         <span>Entry Fee:</span>
-        <span>{{game.entryFee}} &dollar;Clout</span>
-        <span>&#8776; &dollar;{{game.entryFeeInDollar}} USD</span>
+        <span>{{ game.entryFee }} &dollar;Clout</span>
+        <span>&#8776; &dollar;{{ game.entryFeeInDollar }} USD</span>
       </div>
     </div>
   </div>
 </template>
 <script>
-import CountDownTime from '@/components/countdown';
+import CountDownTime from "@/components/countdown";
 export default {
-  props: ['game'],
-  components:{
-    CountDownTime
+  props: ["game"],
+  components: {
+    CountDownTime,
   },
   computed: {
-    user(){
+    user() {
       return this.$store.getters.activeUser;
     },
     balance() {
@@ -52,11 +83,8 @@ export default {
     toggleInsufficientBalanceDialog() {
       this.$bvModal.show("insufficientBalanceAlertDialog");
     },
-    playGame(){
-      
-    }
-  }
-}
+  },
+};
 </script>
 <style scoped>
 .xvhMBoard-box {
@@ -65,8 +93,8 @@ export default {
   padding: 2.5rem 1.3rem 1.3rem 1.3rem;
   margin-top: 2.4rem;
   border: 1px solid #a7178f;
-  background: #a7178f linear-gradient(232deg, #a7178f 0%, #2b1097 100%) 0%
-    0% no-repeat padding-box;
+  background: #a7178f linear-gradient(232deg, #a7178f 0%, #2b1097 100%) 0% 0%
+    no-repeat padding-box;
   border: 1px solid #b19eff;
   border-radius: 1.25rem;
 }
