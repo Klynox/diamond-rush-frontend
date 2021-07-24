@@ -104,7 +104,6 @@ export default {
           .doc(this.$route.params.hash)
           .onSnapshot((querySnapshot) => {
             this.game = querySnapshot.data();
-            console.log(this.game);
             this.game.gameId = querySnapshot.id;
             if(this.isCanceled(this.game.status)){
               this.gameError = 'Sorry, this game has been canceled.';

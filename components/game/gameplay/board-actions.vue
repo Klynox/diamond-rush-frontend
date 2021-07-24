@@ -45,8 +45,12 @@
   </div>
 </template>
 <script>
+import CountDownTime from "@/components/countdown";
 export default {
   props: ["user", "game", "isWinner"],
+  components: {
+    CountDownTime,
+  },
   computed: {
     isLoading() {
       return this.$store.state.game.isLoading;
@@ -103,10 +107,10 @@ export default {
   height: 100%;
   background: transparent linear-gradient(265deg, #00ecff 0%, #00ff6f 100%) 0%
     0% no-repeat padding-box;
-    border: 1px solid #b19eff;
+  border: 1px solid #b19eff;
   border-radius: 10px;
   filter: blur(14px);
-  z-index: 3
+  z-index: 3;
 }
 .mvcD-winner .caption {
   position: relative;

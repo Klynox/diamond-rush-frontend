@@ -5,12 +5,14 @@
       <div class="bnvc-wrapping">
         <div class="container">
           <div class="mx-auto">
-            <WalletInfo />
-            <GameBoard
-              v-for="(game, index) in games"
-              :game="game"
-              :key="index"
-            />
+            <client-only>
+              <WalletInfo />
+              <GameBoard
+                v-for="(game, index) in games"
+                :game="game"
+                :key="index"
+              />
+            </client-only>
           </div>
         </div>
       </div>
@@ -46,14 +48,16 @@ export default {
   methods: {
     checkForParticipation: async function (gameId) {
       try {
-        this.$axios.post("/check-participant/" + gameId, { userId: this.user.uid });
+        this.$axios.post("/check-participant/" + gameId, {
+          userId: this.user.uid,
+        });
         return true;
       } catch (err) {
         console.log(err);
         return false;
       }
     },
-    loadGames: async function(gamesSnapshot) {
+    loadGames: async function (gamesSnapshot) {
       var games = [];
       gamesSnapshot.forEach(async (doc) => {
         const gameData = doc.data();
@@ -65,7 +69,7 @@ export default {
         }
         games.push(gameData);
       });
-      
+
       this.games = games;
     },
     getGames: async function () {

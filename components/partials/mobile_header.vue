@@ -12,7 +12,7 @@
       <img src="/images/logo.svg" class="logo" alt="Diamond Rush"/>
       <span>DiamondRush</span></nuxt-link
     >
-    <NavProfile />
+    <client-only><NavProfile /></client-only>
   </div>
 </template>
 <script>

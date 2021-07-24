@@ -43,10 +43,7 @@
 </template>
 <script>
 import { DB } from "@/services/fireinit.js";
-import CountDownTime from "@/components/countdown";
-import WalletInfo from "@/components/wallets";
 import MobileHeader from "@/components/partials/mobile_header";
-import NavProfile from "@/components/partials/nav-profile";
 import GamePlayBoardActions from "@/components/game/gameplay/board-actions";
 import GamePlayCardInfo from "@/components/game/gameplay/card-info";
 import GamePlayCardNav from "@/components/game/gameplay/card-nav";
@@ -55,9 +52,6 @@ export default {
   props: ["game", "gameIsClosed"],
   components: {
     MobileHeader,
-    NavProfile,
-    WalletInfo,
-    CountDownTime,
     GamePlayBoardActions,
     GamePlayCardInfo,
     GamePlayCardNav,

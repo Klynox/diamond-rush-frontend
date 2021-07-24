@@ -6,14 +6,17 @@
       mb-5
       justify-content-between
       nav-container
-      display-pc-flex align-items-center
+      display-pc-flex
+      align-items-center
     "
   >
     <nuxt-link class="d-flex align-items-center logo-wrapper" to="/">
       <img src="/images/logo.svg" class="logo" alt="Diamond Rush" />
       <span class="d-none d-md-block">DiamondRush</span>
     </nuxt-link>
-    <NavProfile />
+    <client-only>
+      <NavProfile />
+    </client-only>
   </div>
 </template>
 <script>
