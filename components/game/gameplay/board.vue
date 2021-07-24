@@ -119,6 +119,11 @@ export default {
           if (!snapshot.empty) {
             const snapshotData = snapshot.docs[0].data();
             if (snapshotData.isWinner && snapshotData.isWinner == true) {
+              const payload = {
+                cards: snapshotData.cards,
+                selectedCard: snapshotData.selection
+              }
+              this.$store.commit("game/setResultCards", payload);
               this.isWinner = true;
             }
             this.$store.commit("game/setLevel", snapshotData.currentLevel);
