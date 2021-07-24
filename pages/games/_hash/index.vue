@@ -49,7 +49,7 @@
 </template>
 <script>
 import { DB } from "@/services/fireinit.js";
-import GamePlayBoard from "@/components/game/gameplay-board";
+import GamePlayBoard from "@/components/game/gameplay/board";
 import Preloader from "@/components/preloader";
 import PageErrorCard from "@/components/cards/page-error-card";
 import ParticipantsBoard from "@/components/game/participants-board";
@@ -84,6 +84,7 @@ export default {
     };
   },
   created() {
+    this.$store.commit('game/resetGame');
     if (this.user) {
       this.enterGame(this.user.uid);
     }
@@ -103,6 +104,8 @@ export default {
           .doc(this.$route.params.hash)
           .onSnapshot((querySnapshot) => {
             this.game = querySnapshot.data();
+            console.log(this.game);
+            this.game.gameId = querySnapshot.id;
             if(this.isCanceled(this.game.status)){
               this.gameError = 'Sorry, this game has been canceled.';
             }

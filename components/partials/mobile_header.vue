@@ -9,7 +9,7 @@
     "
   >
     <nuxt-link class="d-flex align-items-center logo-wrapper" to="/">
-      <img src="/images/logo.svg" class="logo" alt="Diamond Rush" />
+      <img src="/images/logo.svg" class="logo" alt="Diamond Rush"/>
       <span>DiamondRush</span></nuxt-link
     >
     <NavProfile />
