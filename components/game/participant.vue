@@ -9,12 +9,16 @@
         <div class="d-flex flex-column">
           <div class="d-flex flex-row profile">
             <img src="/images/profile-placeholder-bhl.png" alt="Ugochukwu" />
-            <span>Ugochukwu</span>
+            <span>{{participant.username}}</span>
           </div>
-          <span class="knvm-title">Won <span class="knvm-output" :class="{ 'active': participant.isWinner }">0.59 $Clout</span></span>
-          <span class="knvm-title">Number of tries <span class="knvm-output" :class="{ 'active': participant.isWinner }">3</span></span>
-          <span class="knvm-title">All Time High <span class="knvm-output" :class="{ 'active': participant.isWinner }">Lv 4</span></span>
-          <span class="knvm-title">ATH Best Time <span class="knvm-output" :class="{ 'active': participant.isWinner }">121.3 secs</span></span>
+          <span class="knvm-title" v-if="gameIsClosed">Won <span class="knvm-output" :class="{ 'active': participant.isWinner }">{{price}} $Clout</span></span>
+          <span class="knvm-title" v-else>Won <span class="knvm-output">0 $Clout</span></span>
+          <span class="knvm-title" v-if="gameIsClosed">Number of tries <span class="knvm-output" :class="{ 'active': participant.isWinner }">{{participant.retries}}</span></span>
+          <span class="knvm-title" v-else>Number of tries <span class="knvm-output">0</span></span>
+          <span class="knvm-title" v-if="gameIsClosed && isFinalized">All Time High <span class="knvm-output" :class="{ 'active': participant.isWinner }">Lv {{participant.highestLevel == 6 ? 5 : participant.highestLevel}}</span></span>
+          <span class="knvm-title" v-else>All Time High <span class="knvm-output"></span></span>
+          <span class="knvm-title" v-if="gameIsClosed && isFinalized">ATH Best Time <span class="knvm-output" :class="{ 'active': participant.isWinner }">{{participant.highestLevelTime}} secs</span></span>
+          <span class="knvm-title" v-else>ATH Best Time <span class="knvm-output"></span></span>
         </div>
         <img
           src="/images/levels/complete-clean.svg"
@@ -28,7 +32,7 @@
 </template>
 <script>
 export default {
-  props: ["participant", "index"],
+  props: ["participant", "index", "gameIsClosed", "price", "isFinalized"],
 };
 </script>
 <style lang="scss" scoped>

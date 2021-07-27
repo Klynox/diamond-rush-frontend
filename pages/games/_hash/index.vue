@@ -5,7 +5,11 @@
       v-if="!isPageLoading && !gameError"
     >
       <div class="other-smaller-board mx-auto d-none d-lg-block">
-        <ParticipantsBoard v-if="game" :game="game" :gameIsClosed="gameIsClosed" />
+        <ParticipantsBoard
+          v-if="game"
+          :game="game"
+          :gameIsClosed="gameIsClosed"
+        />
       </div>
       <GamePlayBoard v-if="game" :game="game" :gameIsClosed="gameIsClosed" />
       <div
@@ -31,13 +35,13 @@
           alt="Diamond Hands"
         />
         <h1 v-if="!gameIsClosed">Be the 1st to attain "Diamond Hands"</h1>
-        <div class="mt-4" v-else>
+        <div class="mt-4" v-else-if="gameIsClosed && gameWinner">
           <img
-            src="/images/profile-placeholder-bhl.png"
+            :src="gameWinner.profileImage"
             class="mb-2 profile-image"
-            alt="Ugochukwu"
+            :alt="gameWinner.username"
           />
-          <h3>@chukwudifu</h3>
+          <h3>@{{gameWinner.username}}</h3>
         </div>
       </div>
     </div>
@@ -81,17 +85,18 @@ export default {
     return {
       game: null,
       gameError: null,
+      gameWinner: null,
     };
   },
   created() {
-    this.$store.commit('game/resetGame');
+    this.$store.commit("game/resetGame");
     if (this.user) {
       this.enterGame(this.user.uid);
     }
   },
   methods: {
-    isCanceled(status){
-      return status == 'CANCELED';
+    isCanceled(status) {
+      return status == "CANCELED";
     },
     async enterGame(userUid) {
       this.gameError = null;
@@ -105,8 +110,19 @@ export default {
           .onSnapshot((querySnapshot) => {
             this.game = querySnapshot.data();
             this.game.gameId = querySnapshot.id;
-            if(this.isCanceled(this.game.status)){
-              this.gameError = 'Sorry, this game has been canceled.';
+            if (this.isCanceled(this.game.status)) {
+              this.gameError = "Sorry, this game has been canceled.";
+            }
+            if (this.game.status == "CLOSED") {
+              DB.collection("gameParticipants")
+                .where("gameId", "==", this.game.gameId)
+                .where("isWinner", "==", true)
+                .onSnapshot((snapshot) => {
+                  if (!snapshot.empty) {
+                    const data = snapshot.docs[0].data();
+                    this.gameWinner = data;
+                  }
+                });
             }
           });
       } catch (err) {

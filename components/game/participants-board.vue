@@ -3,40 +3,58 @@
     <h3>Prize: 0.59 $Clout ≈ $100 USD</h3>
     <hr class="col-9 mx-auto" />
     <div class="text-center sm-heading">Winner takes it all</div>
-    <h4 class="board-info">Participants <span>11/11</span></h4>
+    <h4 class="board-info">
+      Participants
+      <span>{{ game.numParticipants }}/{{ game.expectedParticipants }}</span>
+    </h4>
     <Participant
       v-for="(participant, index) in participants"
       :participant="participant"
+      :gameIsClosed="gameIsClosed"
+      :price="game.price"
+      :isFinalized="game.finalized"
       :key="index"
       :index="++index"
     />
   </div>
 </template>
 <script>
+import { DB } from "@/services/fireinit.js";
 import Participant from "@/components/game/participant";
 export default {
+  props: ["game", "gameIsClosed"],
   components: {
     Participant,
   },
   data() {
     return {
-      participants: [
-        { isWinner: true },
-        { isWinner: false },
-        { isWinner: false },
-        { isWinner: false },
-        { isWinner: false },
-        { isWinner: false },
-        { isWinner: false },
-      ],
+      participants: [],
     };
+  },
+  created() {
+    this.getGameParticipants();
+  },
+  methods: {
+    getGameParticipants: function () {
+      DB.collection("gameParticipants")
+        .where("gameId", "==", this.game.gameId)
+        .onSnapshot((querySnapshot) => {
+          var participants = [];
+          querySnapshot.forEach(async (doc) => {
+            const data = doc.data();
+            participants.push(data);
+          });
+
+          this.participants = participants;
+        });
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
 .board-wrapper {
-  background: #a7178f linear-gradient(343deg, #a7178f 0%, #2b1097 100%) 0%
-    0% no-repeat padding-box;
+  background: #a7178f linear-gradient(343deg, #a7178f 0%, #2b1097 100%) 0% 0%
+    no-repeat padding-box;
   border: 1px solid #b19eff;
   border-radius: 20px;
   width: 95%;

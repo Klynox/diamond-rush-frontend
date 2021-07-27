@@ -148,6 +148,9 @@ export const actions = {
         try {
             const result = await this.$axios.post('/playgame/' + payload.gameId, { userId: payload.uid, selection: payload.selection });
             commit('setResultCards', result.data);
+            if (result.data.selectedCard.type == 'PAPER_HANDS') {
+                commit("game/setLevel", payload.nextLevel);
+            }
             commit('resetPlay');
             commit('setLoading', false);
         } catch (err) {

@@ -7,11 +7,8 @@
     <GamePlayCardNav :game="game" />
     <div
       class="mnvcD-wrapper"
-      :class="{
-        'mnvcD-good': selectionState == 'GOOD',
-        'mnvcD-bad': selectionState == 'BAD',
-        'mnvcD-good': isWinner
-      }"
+      :class="[{
+        'mnvcD-good': selectionState == 'GOOD'}, {'mnvcD-bad': selectionState == 'BAD'}, {'mnvcD-good': isWinner}]"
     >
       <WinnerShapes v-if="isWinner" />
       <div class="container">

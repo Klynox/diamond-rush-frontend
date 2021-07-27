@@ -7,18 +7,85 @@
           src="/images/bml-back.svg"
           alt="backward button"
           class="backward-nav"
-          @click="$router.go(-1)"
+          @click="goBack"
         />
         <h3 class="mnvcD-heading">Players</h3>
-        <ParticipantsBoard />
+        <client-only>
+        <ParticipantsBoard v-if="!pageLoading" :game="game"
+          :gameIsClosed="gameIsClosed" />
+        </client-only>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { DB } from "@/services/fireinit.js";
 import MobileHeader from "@/components/partials/mobile_header";
 import ParticipantsBoard from "@/components/game/participants-board";
 export default {
+  validate: async function ({ params, store }) {
+    const querySnapshot = await DB.collection("games").doc(params.hash).get();
+    return querySnapshot.exists;
+  },
+  data() {
+    return {
+      game: null,
+      pageLoading: true,
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.activeUser;
+    },
+    gameIsClosed() {
+      if (this.game) {
+        return this.game.status == "CLOSED";
+      }
+    },
+  },
+  created() {
+    if (this.user) {
+      this.checkGame();
+    }
+  },
+  methods: {
+    isCanceled(status) {
+      return status == "CANCELED";
+    },
+    goBack(){
+      this.$router.go(-1);
+    },
+    checkForParticipation: async function (gameId) {
+      try {
+        this.$axios.post("/check-participant/" + gameId, {
+          userId: this.user.uid,
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+        return false;
+      }
+    },
+    async checkGame() {
+      try {
+        if (!(await this.checkForParticipation(this.$route.params.hash))) {
+          this.goBack();
+        }
+        DB.collection("games")
+          .doc(this.$route.params.hash)
+          .onSnapshot((querySnapshot) => {
+            this.game = querySnapshot.data();
+            this.game.gameId = querySnapshot.id;
+            this.pageLoading = false;
+            if (this.isCanceled(this.game.status)) {
+              this.goBack();
+            }
+          });
+      } catch (err) {
+        this.goBack();
+      }
+    },
+  },
   components: {
     MobileHeader,
     ParticipantsBoard,
