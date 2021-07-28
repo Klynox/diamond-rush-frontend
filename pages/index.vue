@@ -48,12 +48,11 @@ export default {
   methods: {
     checkForParticipation: async function (gameId) {
       try {
-        this.$axios.post("/check-participant/" + gameId, {
+        await this.$axios.post("/check-participant/" + gameId, {
           userId: this.user.uid,
         });
         return true;
       } catch (err) {
-        console.log(err);
         return false;
       }
     },

@@ -23,6 +23,7 @@
             ></span
           >
         </div>
+        
         <nuxt-link
           :to="'/games/' + game.gameId"
           type="button"
