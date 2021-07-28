@@ -28,7 +28,7 @@
           type="button"
           class="btn xvhM-action-btn"
           v-if="
-            (user && balance >= game.entryFee) || (user && game.isParticipant)
+            (user && balance >= game.entryFee) || (user && game.isParticipant == true)
           "
           >Play</nuxt-link
         >
@@ -51,7 +51,7 @@
           <span>Round starts</span>
           <span
             ><span class="action-countdown"
-              ><CountDownTime :countdownTime="game.endsAt.toDate()" /></span
+              ><CountDownTime :countdownTime="gameCountDownTime" /></span
             ><span>min(s)</span></span
           >
         </div>
@@ -66,12 +66,16 @@
 </template>
 <script>
 import CountDownTime from "@/components/countdown";
+import { setTimeZone } from "@/services/luxon.js";
 export default {
   props: ["game"],
   components: {
     CountDownTime,
   },
   computed: {
+    gameCountDownTime(){
+      return setTimeZone(new Date(this.game.endsAt.toDate()).getTime());
+    },
     user() {
       return this.$store.getters.activeUser;
     },

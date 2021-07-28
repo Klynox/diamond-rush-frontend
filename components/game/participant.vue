@@ -8,7 +8,7 @@
       <div class="d-flex flex-row justify-content-between align-items-center">
         <div class="d-flex flex-column">
           <div class="d-flex flex-row profile">
-            <img src="/images/profile-placeholder-bhl.png" alt="Ugochukwu" />
+            <img :src="participant.profileImage" alt="Ugochukwu" />
             <span>{{participant.username}}</span>
           </div>
           <span class="knvm-title" v-if="gameIsClosed">Won <span class="knvm-output" :class="{ 'active': participant.isWinner }">{{price}} $Clout</span></span>

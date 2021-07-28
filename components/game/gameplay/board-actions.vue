@@ -37,7 +37,7 @@
         <span>Game starts in</span>
         <span
           ><span class="action-countdown"
-            ><CountDownTime :countdownTime="game.endsAt.toDate()" /></span
+            ><CountDownTime :countdownTime="gameCountDownTime" /></span
           ><span>min(s)</span></span
         >
       </div>
@@ -46,12 +46,16 @@
 </template>
 <script>
 import CountDownTime from "@/components/countdown";
+import { setTimeZone } from "@/services/luxon.js";
 export default {
   props: ["user", "game", "isWinner"],
   components: {
     CountDownTime,
   },
   computed: {
+    gameCountDownTime(){
+      return setTimeZone(new Date(this.game.endsAt.toDate()).getTime());
+    },
     isLoading() {
       return this.$store.state.game.isLoading;
     },

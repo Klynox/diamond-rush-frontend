@@ -9,7 +9,7 @@ export default (context) => {
                 const userDetails = {
                     username: user.displayName,
                     email: user.email,
-                    profilePhoto: user.photoURL,
+                    profileImage: user.photoURL,
                     phone: user.phoneNumber,
                     uid: user.uid
                 }

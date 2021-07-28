@@ -50,7 +50,7 @@
     </ul>
     <div class="d-inline-block" v-if="user">
       <div class="d-flex flex-row nav-profile">
-        <img src="/images/profile-placeholder-bhl.png" :alt="user.username" />
+        <img :src="user.profileImage" :alt="user.username" />
         <span>{{user.username}}</span>
       </div>
     </div>

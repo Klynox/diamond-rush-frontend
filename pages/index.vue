@@ -62,6 +62,7 @@ export default {
       gamesSnapshot.forEach(async (doc) => {
         const gameData = doc.data();
         gameData.gameId = doc.id;
+        gameData.isParticipant = false;
         if (this.user) {
           if (await this.checkForParticipation(doc.id)) {
             gameData.isParticipant = true;
