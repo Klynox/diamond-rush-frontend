@@ -4,6 +4,7 @@
     v-if="new Date(game.endsAt.toDate()) > new Date()"
   >
     <h2 class="xvhM">Be the 1st to attain "Diamond Hands"</h2>
+    <h2 class="xvhM">{{this.game.endsAt.toDate()}}</h2>
     <img src="/images/xvhM-diamond.svg" class="diamond-xvhM" />
     <h3 class="xvhM-game-title">Battle Royale</h3>
     <p class="xvhM-game-type">{{ game.expectedParticipants }} Player PVP</p>
@@ -58,9 +59,9 @@
         </div>
       </div>
       <div class="my-3 d-flex flex-row justify-content-between xvhM-game-info">
-        <span>Entry Fee:</span>
-        <span>{{ game.entryFee }} &dollar;Clout</span>
-        <span>&#8776; &dollar;{{ game.entryFeeInDollar }} USD</span>
+        <span class="col-4">Entry Fee:</span>
+        <span class="col-4">{{ game.entryFee }} &dollar;Clout</span>
+        <span class="col-4">&#8776; &dollar;{{ game.entryFeeInDollar }} USD</span>
       </div>
     </div>
   </div>
