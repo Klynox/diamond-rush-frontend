@@ -7,8 +7,13 @@
     <GamePlayCardNav :game="game" />
     <div
       class="mnvcD-wrapper"
-      :class="[{
-        'mnvcD-good': selectionState == 'GOOD'}, {'mnvcD-bad': selectionState == 'BAD'}, {'mnvcD-good': isWinner}]"
+      :class="[
+        {
+          'mnvcD-good': selectionState == 'GOOD',
+        },
+        { 'mnvcD-bad': selectionState == 'BAD' },
+        { 'mnvcD-good': isWinner },
+      ]"
     >
       <WinnerShapes v-if="isWinner" />
       <div class="container">
@@ -52,12 +57,15 @@ export default {
     GamePlayBoardActions,
     GamePlayCardInfo,
     GamePlayCardNav,
-    WinnerShapes
+    WinnerShapes,
   },
   data() {
     return {
       isWinner: false,
     };
+  },
+  unmounted() {
+    this.$store.commit("game/resetGame");
   },
   computed: {
     selectionState() {
@@ -112,8 +120,8 @@ export default {
             if (snapshotData.isWinner && snapshotData.isWinner == true) {
               const payload = {
                 cards: snapshotData.cards,
-                selectedCard: snapshotData.selection
-              }
+                selectedCard: snapshotData.selection,
+              };
               this.$store.commit("game/setResultCards", payload);
               this.isWinner = true;
             }
