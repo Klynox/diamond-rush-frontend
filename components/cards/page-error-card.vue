@@ -14,6 +14,7 @@
     >
       <div class="error-xbhjdH">
         <slot></slot>
+        <nuxt-link to="/" class="btn xbnc-btn">Continue</nuxt-link>
       </div>
     </div>
   </div>
@@ -40,5 +41,10 @@
 .other-smaller-board {
   width: 30rem;
   max-width: 83.333333%;
+}
+.xbnc-btn {
+  display: block;
+  color: #00fff6;
+  text-decoration: underline;
 }
 </style>

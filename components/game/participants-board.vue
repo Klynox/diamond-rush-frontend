@@ -37,7 +37,7 @@ export default {
   methods: {
     getGameParticipants: function () {
       DB.collection("gameParticipants")
-        .where("gameId", "==", this.game.gameId).orderBy('position', 'asc').orderBy('isWinner', 'desc')
+        .where("gameId", "==", this.game.gameId).orderBy('position', 'asc')
         .onSnapshot((querySnapshot) => {
           var participants = [];
           querySnapshot.forEach(async (doc) => {

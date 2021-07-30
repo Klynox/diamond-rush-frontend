@@ -4,7 +4,7 @@
     v-if="new Date(game.endsAt.toDate()) > new Date()"
   >
     <h2 class="xvhM">Be the 1st to attain "Diamond Hands"</h2>
-    <h2 class="xvhM">{{setTimeZone(new Date(game.endsAt.toDate()).getTime())}}</h2>
+    <h2 class="xvhM">{{gameCountDownTime}}</h2>
     <img src="/images/xvhM-diamond.svg" class="diamond-xvhM" />
     <h3 class="xvhM-game-title">Battle Royale</h3>
     <p class="xvhM-game-type">{{ game.expectedParticipants }} Player PVP</p>
