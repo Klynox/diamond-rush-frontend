@@ -71,7 +71,7 @@ export default {
             .where("uid", "==", uid)
             .get()
             .then((wallet) => {
-              if (wallet.exists) {
+              if (!wallet.empty) {
                 const walletDetails = wallet.docs[0];
                 this.$store.commit("wallet/setBalance", walletDetails.balance);
                 this.$store.dispatch("wallet/setBalanceEquivalent", {});
