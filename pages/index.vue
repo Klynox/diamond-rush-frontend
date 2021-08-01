@@ -8,6 +8,10 @@
             <client-only>
               <WalletInfo />
               <GameBoard
+                v-if="activeGame"
+                :game="activeGame"
+              />
+              <GameBoard
                 v-for="(game, index) in games"
                 :game="game"
                 :key="index"
@@ -34,6 +38,7 @@ export default {
   },
   data() {
     return {
+      activeGame: null,
       games: [],
     };
   },
@@ -44,6 +49,7 @@ export default {
   },
   created() {
     this.getGames();
+    this.getOpenGames();
   },
   methods: {
     checkForParticipation: async function (gameId) {
@@ -65,6 +71,7 @@ export default {
         if (this.user) {
           if (await this.checkForParticipation(doc.id)) {
             gameData.isParticipant = true;
+            gameData.isActive = true;
           }
         }
         games.push(gameData);
@@ -80,6 +87,32 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    getOpenGames: async function () {
+      DB.collection("gameParticipants")
+        .where("isOver", "==", false)
+        .onSnapshot((participantSnapshot) => {
+          if (!participantSnapshot.empty) {
+            participantSnapshot.forEach((result) => {
+              const participantGameData = result.data();
+              DB.collection("games")
+                .doc(participantGameData.gameId)
+                .onSnapshot((gameSnapshot) => {
+                  if (gameSnapshot.exists) {
+                    const gameData = gameSnapshot.data();
+                    if (
+                      gameData.status == "ACTIVE"
+                    ) {
+                      gameData.gameId = gameSnapshot.id;
+                      gameData.isParticipant = true;
+                      gameData.isActive = true;
+                      this.activeGame = gameData;
+                    }
+                  }
+                });
+            });
+          }
+        });
     },
   },
 };

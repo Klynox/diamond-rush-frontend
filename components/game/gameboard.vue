@@ -1,10 +1,9 @@
 <template>
   <div
-    class="d-flex flex-column align-items-center mx-auto xvhMBoard-box"
-    v-if="new Date(game.endsAt.toDate()) > new Date()"
+    class="d-flex flex-column align-items-center mx-auto xvhMBoard-box" :class="{'active-game': game.isActive}"
+    v-if="new Date(game.endsAt.toDate()) > new Date() || game.isActive && game.status == 'ACTIVE'"
   >
     <h2 class="xvhM">Be the 1st to attain "Diamond Hands"</h2>
-    <h2 class="xvhM">{{gameCountDownTime}}</h2>
     <img src="/images/xvhM-diamond.svg" class="diamond-xvhM" />
     <h3 class="xvhM-game-title">Battle Royale</h3>
     <p class="xvhM-game-type">{{ game.expectedParticipants }} Player PVP</p>
@@ -103,6 +102,9 @@ export default {
     no-repeat padding-box;
   border: 1px solid #b19eff;
   border-radius: 1.25rem;
+}
+.active-game {
+  border: 5px double #b19eff;
 }
 .xvhM {
   color: #fff;
