@@ -10,10 +10,11 @@ export default (context) => {
                 if (!snapshot.empty) {
                     const wallet = snapshot.docs[0].data();
                     store.commit("wallet/setBalance", wallet.balance);
-                    store.dispatch("wallet/setBalanceEquivalent", {});
+                    store.commit("wallet/setPublicKey", wallet.publicKey);
+                    store.dispatch("wallet/setBalanceEquivalent", wallet.balance);
                 }
             });
         }
         resolve();
-    })
+    });
 }

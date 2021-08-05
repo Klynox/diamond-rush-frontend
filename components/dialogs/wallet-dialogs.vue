@@ -3,10 +3,10 @@
     <b-modal hide-footer id="depositDialog" title="Quick Deposit">
       <div class="d-block text-center">
         <div class="form-caption">
-          Send <span>0.3 $CLout ≈ $20 USD</span> to this public key
+          Send <span>Bitclout</span> to this public key
         </div>
         <div
-          class="col-11 mx-auto payment-information"
+          class="col-11 mx-auto payment-information d-flex"
           @click="copyCloutAddress"
         >
           <input
@@ -20,43 +20,61 @@
       </div>
     </b-modal>
     <b-modal hide-footer id="withdrawalDialog" title="Quick Withdrawal">
-      <div class="d-block text-center">
+      <form @submit.prevent="submitWithdrawal" class="d-block text-center">
+        <div class="alert alert-warning" v-if="errorMsg">{{ errorMsg }}</div>
+        <div class="alert alert-success" v-if="successMsg">
+          {{ successMsg }}
+        </div>
         <h4 class="input-info">Enter amount to withdraw</h4>
-        <div class="form-group d-flex col-9 col-sm-8 mx-auto">
+        <div
+          class="form-group d-flex col-9 col-sm-8 mx-auto mb-0"
+          :class="{ 'mb-2': !withdrawalForm.amount }"
+        >
           <input
             type="tel"
             placeholder="20.00"
-            v-model="depositForm.amount"
+            v-model="withdrawalForm.amount"
             class="form-control"
+            :disabled="isLoading || loadingForm"
           />
           <label
             class="text-center"
-            style="line-height: 3; margin-left: 0.43rem"
+            style="line-height: 2.4; margin-left: 0.43rem"
             >USD</label
           >
         </div>
-        <div
-          class="
-            d-flex
-            flex-row
-            align-items-center
-            justify-content-center
-            wallet-nav-profile
-          "
-        >
-          <img src="/images/profile-placeholder-bhl.png" alt="Ugochukwu" />
-          <span>Ugochukwu</span>
+        <div v-if="withdrawalForm.amount" class="mb-1">
+          {{ cloutEquivalent }} <span style="color: #00fff6;">&dollar;Clout</span>
         </div>
-        <button class="btn col-5 mx-auto payment-information" type="submit">
-          <span>Withdraw</span>
+        <h4 class="input-info">Enter Bitclout public key</h4>
+        <div class="form-group d-flex col-9 col-sm-8 mx-auto">
+          <input
+            type="tel"
+            placeholder="Bitclout public key"
+            v-model="withdrawalForm.publicKey"
+            class="form-control"
+          />
+        </div>
+        <button
+          class="btn col-5 mx-auto payment-information"
+          type="submit"
+          :disabled="isLoading || loadingForm"
+        >
+          <span v-if="loadingForm">Submitting request...</span>
+          <span v-else>Withdraw</span>
         </button>
-      </div>
+      </form>
     </b-modal>
-    <b-modal hide-footer id="insufficientBalanceAlertDialog" title="Balance Alert">
+    <b-modal
+      hide-footer
+      id="insufficientBalanceAlertDialog"
+      title="Balance Alert"
+    >
       <div class="d-block text-center">
         <div class="form-caption">
-          You do not sufficient balance to play this game.<br/>
-          Fund your gaming account by sending Bitclout to this public key to be able to participate.
+          You do not sufficient balance to play this game.<br />
+          Fund your gaming account by sending Bitclout to this public key to be
+          able to participate.
         </div>
         <div
           class="col-11 mx-auto payment-information"
@@ -75,16 +93,64 @@
   </div>
 </template>
 <script>
+import { auth } from '@/services/fireinit.js'
 export default {
   data() {
     return {
-      depositCloutAddress: "BClY732hidwxbuwubd8byuwfybdujdjjajrfjbvhb",
-      depositForm: {
+      errorMsg: null,
+      successMsg: null,
+      dollarPerBitclout: null,
+      isLoading: true,
+      loadingForm: false,
+      withdrawalForm: {
         amount: null,
+        publicKey: null,
+        userId: null,
       },
     };
   },
+  computed: {
+    depositCloutAddress() {
+      return this.$store.state.wallet.publicKey;
+    },
+    cloutEquivalent() {
+      if (!this.isLoading) {
+        return (this.withdrawalForm.amount / this.dollarPerBitclout).toFixed(8);
+      }
+    },
+  },
+  created() {
+    this.getUser();
+    this.getExchangeRate();
+  },
   methods: {
+    getUser() {
+      auth.onAuthStateChanged((user) => {
+        this.withdrawalForm.userId = user.uid;
+      });
+    },
+    submitWithdrawal: async function () {
+      if (!this.withdrawalForm.userId) return;
+      if (!this.withdrawalForm.amount || !this.withdrawalForm.publicKey) {
+        this.errorMsg = "Please provide amount to withdraw and your public key.";
+        return;
+      }
+      this.loadingForm = true;
+      try {
+        this.withdrawalForm.amountInClout = this.cloutEquivalent;
+        await this.$axios.post("/request-withdrawal", this.withdrawalForm);
+        this.errorMsg = null;
+        this.successMsg = "Withdrawal successful!";
+      } catch (err) {
+        this.loadingForm = false;
+        if (err.response.status == 400) {
+          console.log(err.response);
+          this.errorMsg = err.response.data.error;
+          return;
+        }
+        this.errorMsg = "Request failed. Please check your internet connection and try again.";
+      }
+    },
     copyCloutAddress: function () {
       const cloutText = document.querySelector("#depositCloutAddress");
       cloutText.setAttribute("type", "text");
@@ -99,6 +165,19 @@ export default {
       /* unselect the range */
       cloutText.setAttribute("type", "hidden");
       window.getSelection().removeAllRanges();
+    },
+    getExchangeRate: async function () {
+      try {
+        const result = await this.$axios.get(
+          "http://52.58.136.147/api/v0/get-exchange-rate"
+        );
+        const USDCentsInBitclout = result.data.USDCentsPerBitCloutExchangeRate;
+        const centsPerDollar = 100;
+        this.isLoading = false;
+        this.dollarPerBitclout = USDCentsInBitclout / centsPerDollar;
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };
@@ -149,6 +228,7 @@ h4.input-info {
   background: #00fff6 0% 0% no-repeat padding-box;
   border-radius: 5px;
   padding: 0.3rem;
+  color: #2b1097;
 }
 .payment-information span {
   text-align: center;
@@ -158,6 +238,11 @@ h4.input-info {
   font-size: 0.93rem;
   letter-spacing: 0px;
   color: #2b1097;
+}
+.payment-information span.copy-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .payment-information span + img {
   margin-left: 0.488rem;
