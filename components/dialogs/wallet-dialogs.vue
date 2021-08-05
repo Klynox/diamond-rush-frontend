@@ -111,7 +111,7 @@ export default {
   },
   computed: {
     depositCloutAddress() {
-      return this.$store.state ? this.$store.state.wallet.publicKey : '';
+      return this.$store ? this.$store.state.wallet.publicKey : '';
     },
     cloutEquivalent() {
       if (!this.isLoading) {
