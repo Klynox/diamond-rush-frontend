@@ -77,7 +77,7 @@
           able to participate.
         </div>
         <div
-          class="col-11 mx-auto payment-information"
+          class="col-11 mx-auto payment-information d-flex"
           @click="copyCloutAddress"
         >
           <input
