@@ -44,7 +44,8 @@
           >
         </div>
         <div v-if="withdrawalForm.amount" class="mb-1">
-          {{ cloutEquivalent }} <span style="color: #00fff6;">&dollar;Clout</span>
+          {{ cloutEquivalent }}
+          <span style="color: #00fff6">&dollar;Clout</span>
         </div>
         <h4 class="input-info">Enter Bitclout public key</h4>
         <div class="form-group d-flex col-9 col-sm-8 mx-auto">
@@ -93,7 +94,7 @@
   </div>
 </template>
 <script>
-import { auth } from '@/services/fireinit.js'
+import { auth } from "@/services/fireinit.js";
 export default {
   data() {
     return {
@@ -111,7 +112,7 @@ export default {
   },
   computed: {
     depositCloutAddress() {
-      return this.$store ? this.$store.state.wallet.publicKey : '';
+      return this.$store ? this.$store.state.wallet.publicKey : "";
     },
     cloutEquivalent() {
       if (!this.isLoading) {
@@ -126,13 +127,16 @@ export default {
   methods: {
     getUser() {
       auth.onAuthStateChanged((user) => {
-        this.withdrawalForm.userId = user.uid;
+        if (user) {
+          this.withdrawalForm.userId = user.uid;
+        }
       });
     },
     submitWithdrawal: async function () {
       if (!this.withdrawalForm.userId) return;
       if (!this.withdrawalForm.amount || !this.withdrawalForm.publicKey) {
-        this.errorMsg = "Please provide amount to withdraw and your public key.";
+        this.errorMsg =
+          "Please provide amount to withdraw and your public key.";
         return;
       }
       this.loadingForm = true;
@@ -148,7 +152,8 @@ export default {
           this.errorMsg = err.response.data.error;
           return;
         }
-        this.errorMsg = "Request failed. Please check your internet connection and try again.";
+        this.errorMsg =
+          "Request failed. Please check your internet connection and try again.";
       }
     },
     copyCloutAddress: function () {

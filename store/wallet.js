@@ -17,6 +17,7 @@ export const mutations = {
     clearBalance(state) {
         state.balance = 0;
         state.usdEquivalent = 0;
+        state.publicKey = null;
     }
 }
 

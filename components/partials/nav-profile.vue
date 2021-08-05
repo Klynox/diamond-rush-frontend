@@ -27,10 +27,12 @@
           <span class="wMxY-balance-title"
             >Balance:
             <span style="font-size: 0.74rem; color: #fff"
-              >{{balance}} $Clout</span
+              >{{ balance }} $Clout</span
             ></span
           >
-          <span class="wMxy-balance-usd">&#8776; &dollar;{{balanceIndollars}} USD</span>
+          <span class="wMxy-balance-usd"
+            >&#8776; &dollar;{{ balanceIndollars }} USD</span
+          >
         </div>
       </li>
     </ul>
@@ -49,27 +51,54 @@
       </li>
     </ul>
     <div class="d-inline-block" v-if="user">
-      <div class="d-flex flex-row nav-profile">
-        <img :src="user.profileImage" :alt="user.username" />
-        <span>{{user.username}}</span>
-      </div>
+      <b-dropdown
+        :toggle-class="[
+          'text-decoration-none',
+          'd-flex',
+          'flex-row',
+          'nav-profile',
+          'deactivate-btn',
+        ]"
+        toggle-tag="div"
+      >
+        <template #button-content>
+          <img :src="user.profileImage" :alt="user.username" />
+          <span>{{ user.username }}</span>
+        </template>
+        <b-dropdown-item href="javascript:void(0)" @click="onLogout"
+          >Logout</b-dropdown-item
+        >
+      </b-dropdown>
     </div>
   </div>
 </template>
 <script>
+import { auth } from "@/services/fireinit.js";
 export default {
   computed: {
     user() {
       return this.$store.getters.activeUser;
     },
-    balance(){
+    balance() {
       return this.$store.state.wallet.balance;
     },
-    balanceIndollars(){
+    balanceIndollars() {
       return this.$store.state.wallet.usdEquivalent;
-    }
+    },
   },
   methods: {
+    onLogout() {
+      auth
+        .signOut()
+        .then(() => {
+          this.$store.commit('setUser', null);
+          this.$store.commit("wallet/clearBalance");
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     toggleDepositModal() {
       this.$bvModal.show("depositDialog");
     },

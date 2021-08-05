@@ -2,29 +2,6 @@
   <div>
     <h2>Sign Up</h2>
     <button type="button" @click="googleSignUp">Sign In with Google</button>
-    <!-- <form @submit.prevent="passwordSignUp">
-      <b-alert
-        :show="dismissCountDown"
-        dismissible
-        variant="warning"
-        @dismissed="dismissCountDown = 0"
-        @dismiss-count-down="countDownChanged"
-      >
-        <p>This alert will dismiss after {{ dismissCountDown }} seconds...</p>
-      </b-alert>
-      <input type="text" placeholder="Username" v-model="formData.username" />
-      <input
-        type="password"
-        placeholder="Enter Password"
-        v-model="formData.password"
-      />
-      <input
-        type="password"
-        placeholder="Retype Password"
-        v-model="formData.retypePassword"
-      />
-      <button type="submit">Sign Up</button>
-    </form> -->
   </div>
 </template>
 <script>
@@ -70,11 +47,16 @@ export default {
           DB.collection("wallets")
             .where("uid", "==", uid)
             .get()
-            .then((wallet) => {
-              if (!wallet.empty) {
-                const walletDetails = wallet.docs[0];
-                this.$store.commit("wallet/setBalance", walletDetails.balance);
-                this.$store.dispatch("wallet/setBalanceEquivalent", {});
+            .then((snapshots) => {
+              if (!snapshots.empty) {
+                const walletSnapshot = snapshots.docs[0];
+                const wallet = walletSnapshot.data();
+                this.$store.commit("wallet/setBalance", wallet.balance);
+                this.$store.commit("wallet/setPublicKey", wallet.publicKey);
+                this.$store.dispatch(
+                  "wallet/setBalanceEquivalent",
+                  wallet.balance
+                );
                 this.$router.push("/");
               } else {
                 DB.collection("wallets")
@@ -82,9 +64,20 @@ export default {
                     uid: uid,
                     balance: 0,
                   })
-                  .then(() => {
+                  .then((result) => {
+                    DB.collection("wallets")
+                      .doc(result.id)
+                      .get()
+                      .then((snapshots) => {
+                        const walletSnapshot = snapshots.docs[0];
+                        const wallet = walletSnapshot.data();
+                        this.$store.commit(
+                          "wallet/setPublicKey",
+                          wallet.publicKey
+                        );
+                      });
                     this.$store.commit("wallet/setBalance", 0);
-                    this.$store.dispatch("wallet/setBalanceEquivalent", {});
+                    this.$store.dispatch("wallet/setBalanceEquivalent", 0);
                     this.$router.push("/");
                   })
                   .catch((error) => {

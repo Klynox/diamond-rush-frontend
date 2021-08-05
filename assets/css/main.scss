@@ -159,6 +159,34 @@ hr.sm {
     }
   }
 }
+.deactivate-btn.btn {
+  background-color: transparent !important;
+  line-height: inherit !important;
+  border: none !important;
+  box-shadow: none !important;
+  &:hover,
+  &:focus {
+    color: darken(#ccc, 30%) !important;
+    box-shadow: none !important;
+    .dropdown-toggle::after {
+      color: #fff;
+  mix-blend-mode: difference;
+    }
+  }
+  &:hover span,
+  &:focus span {
+    color: darken(#ccc, 30%) !important;
+  }
+}
+
+.deactivate-btn.dropdown-toggle::after {
+  position: absolute;
+  top: 35%;
+  right: 0;
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
 @media (max-width: 36.25rem) {
   .display-mobile-flex {
     display: flex !important;
@@ -267,8 +295,8 @@ hr.sm {
     padding-left: 0rem !important;
   }
   .xvhM-action-btn {
-      padding: 0.5rem 1.6rem !important;
-      min-width: initial !important;
+    padding: 0.5rem 1.6rem !important;
+    min-width: initial !important;
   }
 }
 @media (min-width: 1340px) {
