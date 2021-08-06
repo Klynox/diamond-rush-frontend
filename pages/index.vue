@@ -7,10 +7,7 @@
           <div class="mx-auto">
             <client-only>
               <WalletInfo />
-              <GameBoard
-                v-if="activeGame"
-                :game="activeGame"
-              />
+              <GameBoard v-if="activeGame" :game="activeGame" />
               <GameBoard
                 v-for="(game, index) in games"
                 :game="game"
@@ -89,30 +86,31 @@ export default {
       }
     },
     getOpenGames: async function () {
-      DB.collection("gameParticipants")
-        .where("isOver", "==", false)
-        .onSnapshot((participantSnapshot) => {
-          if (!participantSnapshot.empty) {
-            participantSnapshot.forEach((result) => {
-              const participantGameData = result.data();
-              DB.collection("games")
-                .doc(participantGameData.gameId)
-                .onSnapshot((gameSnapshot) => {
-                  if (gameSnapshot.exists) {
-                    const gameData = gameSnapshot.data();
-                    if (
-                      gameData.status == "ACTIVE"
-                    ) {
-                      gameData.gameId = gameSnapshot.id;
-                      gameData.isParticipant = true;
-                      gameData.isActive = true;
-                      this.activeGame = gameData;
+      if (this.user) {
+        DB.collection("gameParticipants")
+          .where("isOver", "==", false)
+          .where("userId", "==", this.user.uid)
+          .onSnapshot((participantSnapshot) => {
+            if (!participantSnapshot.empty) {
+              participantSnapshot.forEach((result) => {
+                const participantGameData = result.data();
+                DB.collection("games")
+                  .doc(participantGameData.gameId)
+                  .onSnapshot((gameSnapshot) => {
+                    if (gameSnapshot.exists) {
+                      const gameData = gameSnapshot.data();
+                      if (gameData.status == "ACTIVE") {
+                        gameData.gameId = gameSnapshot.id;
+                        gameData.isParticipant = true;
+                        gameData.isActive = true;
+                        this.activeGame = gameData;
+                      }
                     }
-                  }
-                });
-            });
-          }
-        });
+                  });
+              });
+            }
+          });
+      }
     },
   },
 };
