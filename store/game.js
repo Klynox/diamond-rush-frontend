@@ -21,32 +21,6 @@ const unselectedGameCards = [
 
 export const state = () => ({
     isOpenable: true,
-    levelImages: [
-        {
-            level: 1,
-            image: '/images/levels/1-level.svg',
-        },
-        {
-            level: 2,
-            image: '/images/levels/2-level.svg',
-        },
-        {
-            level: 3,
-            image: '/images/levels/3-level.svg',
-        },
-        {
-            level: 4,
-            image: '/images/levels/4-level.svg',
-        },
-        {
-            level: 5,
-            image: '/images/levels/5-level.svg',
-        },
-        {
-            level: 6,
-            image: '/images/levels/complete-level.svg',
-        },
-    ],
     currentLevel: 1,
     defaultGameCards: [
         {

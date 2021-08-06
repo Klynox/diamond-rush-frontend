@@ -1,9 +1,7 @@
 <template>
   <div class="mx-auto col-sm-9 col-md-7 col-lg-4 mnvcD-container small-board">
     <MobileHeader class="display-mobile-flex" />
-    <div class="d-flex flex-column align-items-center xpdV-hero">
-      <img :src="currentLevelTrophyImage" class="xpdv-dmd" />
-    </div>
+    <LevelsWrapper :currentLevel="currentLevel"/>
     <GamePlayCardNav :game="game" />
     <div
       class="mnvcD-wrapper"
@@ -50,10 +48,12 @@ import GamePlayBoardActions from "@/components/game/gameplay/board-actions";
 import GamePlayCardInfo from "@/components/game/gameplay/card-info";
 import GamePlayCardNav from "@/components/game/gameplay/card-nav";
 import WinnerShapes from "@/components/game/gameplay/mnvcD-winner-shapes";
+import LevelsWrapper from "@/components/game/gameplay/levels-trophy/wrapper";
 export default {
   props: ["game", "gameIsClosed"],
   components: {
     MobileHeader,
+    LevelsWrapper,
     GamePlayBoardActions,
     GamePlayCardInfo,
     GamePlayCardNav,
@@ -83,13 +83,9 @@ export default {
     isGameInactive() {
       return this.game.status == "INACTIVE";
     },
-    currentLevelTrophyImage() {
+    currentLevel() {
       const currentLevel = this.$store.state.game.currentLevel;
-      const levelImages = this.$store.state.game.levelImages;
-      const currentLevelImageIndex = levelImages.findIndex(
-        (level) => level.level == currentLevel
-      );
-      return levelImages[currentLevelImageIndex].image;
+      return currentLevel;
     },
     isLoading() {
       return this.$store.state.game.isLoading;
