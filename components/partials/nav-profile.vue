@@ -38,18 +38,12 @@
     </ul>
     <ul class="d-flex align-items-center flex-row list-unstyled" v-else>
       <li class="nav-dhlB">
-        <a
-          class=""
-          href="javascript:void(0)"
-          @click="toggleSignInModal"
+        <a class="" href="javascript:void(0)" @click="toggleSignInModal"
           >Sign In
         </a>
       </li>
       <li class="nav-dhlB">
-        <a
-          class=""
-          href="javascript:void(0)"
-          @click="toggleSignUpModal"
+        <a class="" href="javascript:void(0)" @click="toggleSignUpModal"
           >Sign Up
         </a>
       </li>
@@ -95,7 +89,7 @@ export default {
       auth
         .signOut()
         .then(() => {
-          this.$store.commit('setUser', null);
+          this.$store.commit("setUser", null);
           this.$store.commit("wallet/clearBalance");
           this.$router.push("/");
         })
@@ -158,6 +152,11 @@ export default {
 .nav-dhlB a {
   color: #00fff6;
   font-size: 0.77rem;
+}
+@media (max-width: 36.25rem) {
+  .nav-dhlB a {
+    color: #4d5057;
+  }
 }
 .nav-dhlB a img {
   padding-right: 7px;
