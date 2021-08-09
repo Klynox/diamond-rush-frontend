@@ -6,10 +6,10 @@
       <span class="wMxy-balance-usd">&#8776; &dollar;{{balanceIndollars}} USD</span>
     </div>
     <div v-if="user" class="d-flex flex-column wMxY-actions">
-      <a href="javascript:void(0)" type="button" @click="toggleDepositModal"
+      <a href="javascript:void(0)" @click="toggleDepositModal"
         ><img src="/images/wMxy-deposit.svg" alt="deposit" />Deposit</a
       >
-      <a href="javascript:void(0)" type="button" @click="toggleWithdrawalModal"
+      <a href="javascript:void(0)" @click="toggleWithdrawalModal"
         ><img src="/images/wMxy-withdrawal.svg" alt="withdrawal" />Withdraw</a
       >
     </div>

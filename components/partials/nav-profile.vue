@@ -38,10 +38,20 @@
     </ul>
     <ul class="d-flex align-items-center flex-row list-unstyled" v-else>
       <li class="nav-dhlB">
-        <nuxt-link to="/sign-in">Sign In</nuxt-link>
+        <a
+          class=""
+          href="javascript:void(0)"
+          @click="toggleSignInModal"
+          >Sign In
+        </a>
       </li>
       <li class="nav-dhlB">
-        <nuxt-link to="/sign-up">Sign Up </nuxt-link>
+        <a
+          class=""
+          href="javascript:void(0)"
+          @click="toggleSignUpModal"
+          >Sign Up
+        </a>
       </li>
     </ul>
     <div class="d-inline-block" v-if="user">
@@ -98,6 +108,12 @@ export default {
     },
     toggleWithdrawalModal() {
       this.$bvModal.show("withdrawalDialog");
+    },
+    toggleSignInModal() {
+      this.$bvModal.show("signInDialog");
+    },
+    toggleSignUpModal() {
+      this.$bvModal.show("signUpDialog");
     },
   },
 };

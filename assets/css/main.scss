@@ -187,6 +187,8 @@ hr.sm {
   mix-blend-mode: difference;
 }
 
+@import "./components/auth";
+
 @media (max-width: 36.25rem) {
   .display-mobile-flex {
     display: flex !important;
@@ -248,10 +250,18 @@ hr.sm {
 .mnvcD-bad .xvhM-action-btn {
   background: transparent linear-gradient(261deg, #ff0000 0%, #2b1097 100%) 0%
     0% no-repeat padding-box !important;
+    background: transparent -webkit-linear-gradient(261deg, #ff0000 0%, #2b1097 100%) 0%
+    0% no-repeat padding-box !important;
+    background: transparent -moz-linear-gradient(261deg, #ff0000 0%, #2b1097 100%) 0%
+    0% no-repeat padding-box !important;
   border-color: #b19eff !important;
 }
 .mnvcD-good .xvhM-action-btn {
-  background: transparent linear-gradient(261deg, #00fff6 0%, #2b1097 100%) 0%
+  background: #2b1097 linear-gradient(261deg, #00fff6 0%, #2b1097 100%) 0%
+    0% no-repeat padding-box !important;
+    background: #2b1097 -webkit-linear-gradient(261deg, #00fff6 0%, #2b1097 100%) 0%
+    0% no-repeat padding-box !important;
+    background: #2b1097 -moz-linear-gradient(261deg, #00fff6 0%, #2b1097 100%) 0%
     0% no-repeat padding-box !important;
   border-color: #b19eff !important;
 }
