@@ -38,13 +38,7 @@
     </ul>
     <ul class="d-flex align-items-center flex-row list-unstyled" v-else>
       <li class="nav-dhlB">
-        <a
-          class=""
-          href="javascript:void(0)"
-          type="button"
-          @click="toggleWithdrawalModal"
-          >Sign In
-        </a>
+        <nuxt-link to="/sign-in">Sign In</nuxt-link>
       </li>
       <li class="nav-dhlB">
         <nuxt-link to="/sign-up">Sign Up </nuxt-link>

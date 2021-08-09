@@ -1,11 +1,8 @@
 <template>
-  <div>
-    <h2>Sign Up</h2>
+    <div>
+        <h2>Sign In</h2>
     <button type="button" @click="googleSignUp">Sign In with Google</button>
-    <br />
-    <br />
-    <br />
-    <form @submit.prevent="passwordSignUp">
+        <form @submit.prevent="submitLogin">
       <b-alert
         :show="dismissCountDown"
         dismissible
@@ -21,19 +18,9 @@
         placeholder="Enter Password"
         v-model="formData.password"
       />
-      <input
-        type="password"
-        placeholder="Retype Password"
-        v-model="formData.retypePassword"
-      />
-      <input
-        type="email"
-        placeholder="Enter email address"
-        v-model="formData.emailAddress"
-      />
-      <button type="submit">Sign Up</button>
+      <button type="submit">Sign In</button>
     </form>
-  </div>
+    </div>
 </template>
 <script>
 import { DB, auth } from "@/services/fireinit.js";
@@ -44,8 +31,6 @@ export default {
       formData: {
         username: null,
         password: null,
-        retypePassword: null,
-        emailAddress: null,
       },
       isLoading: false,
       dismissSecs: 10,
@@ -60,18 +45,11 @@ export default {
     showAlert() {
       this.dismissCountDown = this.dismissSecs;
     },
-    passwordSignUp: async function () {
+    submitLogin: async function () {
       this.errorMsg = null;
       this.isLoading = true;
       this.dismissCountDown = 0;
-      if (this.formData.username && this.formData.password) {
-        if (this.formData.password != this.formData.retypePassword) {
-          this.isLoading = false;
-          this.errorMsg = "Password and retyped password do not match.";
-          this.showAlert();
-          return;
-        }
-      } else {
+      if (!this.formData.username || !this.formData.password) {
         this.isLoading = false;
         this.errorMsg = "Please provide both username and password.";
         this.showAlert();
@@ -81,10 +59,8 @@ export default {
         const requestData = {
           username: this.formData.username,
           password: this.formData.password,
-          retypePassword: this.formData.retypePassword,
-          emailAddress: this.formData.emailAddress,
         };
-        const response = await this.$axios.post("/auth/new", requestData);
+        const response = await this.$axios.post("/auth/signin", requestData);
         const result = await auth.signInWithCustomToken(response.data.token);
         const uid = result.user.uid;
         this.setWallet(uid);
