@@ -155,7 +155,7 @@ export default {
 }
 @media (max-width: 36.25rem) {
   .nav-dhlB a {
-    color: #4d5057;
+    color: #2c303a;
     font-size: 14px;
     font-weight: 500;
   }
