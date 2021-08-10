@@ -15,12 +15,12 @@ import SignUp from "@/components/dialogs/auth/signup";
 export default {
   components: { SignIn, SignUp },
   methods: {
-    googleSignIn() {
+    async googleSignIn() {
       this.$store
         .dispatch("signInWithGoogle")
-        .then((result) => {
+        .then(async (result) => {
           const uid = result.user.uid;
-          this.setWallet(uid);
+          await this.setWallet(uid);
           this.$bvModal.hide("signInDialog");
           this.$bvModal.hide("signUpDialog");
         })
@@ -29,45 +29,38 @@ export default {
           console.log(e.message);
         });
     },
-    setWallet: function (userUID) {
-      DB.collection("wallets")
-        .where("uid", "==", userUID)
-        .get()
-        .then((snapshots) => {
-          if (!snapshots.empty) {
-            const walletSnapshot = snapshots.docs[0];
+    setWallet: async function (userUID) {
+      try {
+        const snapshots = await DB.collection("wallets")
+          .where("uid", "==", userUID)
+          .get();
+        if (!snapshots.empty) {
+          const walletSnapshot = snapshots.docs[0];
+          const wallet = walletSnapshot.data();
+          this.$store.commit("wallet/setBalance", wallet.balance);
+          this.$store.commit("wallet/setPublicKey", wallet.publicKey);
+          this.$store.dispatch("wallet/setBalanceEquivalent", wallet.balance);
+          this.$router.push("/");
+        } else {
+          const result = await DB.collection("wallets").add({
+            uid: userUID,
+            balance: 0,
+          });
+          const querySnapshots = await DB.collection("wallets")
+            .doc(result.id)
+            .get();
+          if (querySnapshots.exists) {
+            const walletSnapshot = querySnapshots.docs[0];
             const wallet = walletSnapshot.data();
-            this.$store.commit("wallet/setBalance", wallet.balance);
             this.$store.commit("wallet/setPublicKey", wallet.publicKey);
-            this.$store.dispatch("wallet/setBalanceEquivalent", wallet.balance);
-            this.$router.push("/");
-          } else {
-            DB.collection("wallets")
-              .add({
-                uid: userUID,
-                balance: 0,
-              })
-              .then((result) => {
-                DB.collection("wallets")
-                  .doc(result.id)
-                  .get()
-                  .then((querySnapshots) => {
-                    const walletSnapshot = querySnapshots.docs[0];
-                    const wallet = walletSnapshot.data();
-                    this.$store.commit("wallet/setPublicKey", wallet.publicKey);
-                  });
-                this.$store.commit("wallet/setBalance", 0);
-                this.$store.dispatch("wallet/setBalanceEquivalent", 0);
-                this.$router.push("/");
-              })
-              .catch((error) => {
-                console.error("Error writing document: ", error);
-              });
           }
-        })
-        .catch((error) => {
-          console.log("Error getting document:", error);
-        });
+          this.$store.commit("wallet/setBalance", 0);
+          this.$store.dispatch("wallet/setBalanceEquivalent", 0);
+          this.$router.push("/");
+        }
+      } catch (error) {
+        console.log("Error getting document:", error);
+      }
     },
   },
 };

@@ -87,7 +87,7 @@ export default {
         const response = await this.$axios.post("/auth/signin", requestData);
         const result = await auth.signInWithCustomToken(response.data.token);
         const uid = result.user.uid;
-        this.$emit("setWallet", uid);
+        await this.$emit("setWallet", uid);
         this.$bvModal.hide("signInDialog");
         this.isLoading = false;
       } catch (err) {
