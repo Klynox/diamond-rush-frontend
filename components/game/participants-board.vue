@@ -1,6 +1,11 @@
 <template>
   <div class="mx-auto board-wrapper">
-    <h3>Prize: {{game.price}} &dollar;Clout ≈ &dollar;{{game.priceInDollar}} USD</h3>
+    <h3>
+      Prize: {{ gamePrice }} &dollar;Clout ≈ &dollar;{{
+        gamePriceInDollar
+      }}
+      USD
+    </h3>
     <hr class="col-9 mx-auto" />
     <div class="text-center sm-heading">Winner takes it all</div>
     <h4 class="board-info">
@@ -20,6 +25,7 @@
 </template>
 <script>
 import { DB } from "@/services/fireinit.js";
+import { nodeAPIUrl } from "@/services/helpers.js";
 import Participant from "@/components/game/participant";
 export default {
   props: ["game", "gameIsClosed"],
@@ -29,15 +35,44 @@ export default {
   data() {
     return {
       participants: [],
+      dollarPerBitclout: null,
     };
   },
   created() {
     this.getGameParticipants();
   },
+  computed: {
+    gamePrice() {
+      if (this.game.numParticipants < 1) {
+        return 0;
+      }
+      return (
+        this.game.entryFee * this.game.numParticipants - this.game.commission
+      );
+    },
+    gamePriceInDollar(){
+      if(!dollarPerBitclout) return 0;
+      return (this.gamePrice / this.dollarPerBitclout).toFixed(8);
+    }
+  },
   methods: {
+    getExchangeRate: async function () {
+      try {
+        const result = await this.$axios.get(
+          `${nodeAPIUrl}/api/v0/get-exchange-rate`
+        );
+        const USDCentsInBitclout = result.data.USDCentsPerBitCloutExchangeRate;
+        const centsPerDollar = 100;
+        this.dollarPerBitclout = USDCentsInBitclout / centsPerDollar;
+      } catch (err) {
+        console.log(err);
+      }
+    },
     getGameParticipants: function () {
       DB.collection("gameParticipants")
-        .where("gameId", "==", this.game.gameId).orderBy('position', 'asc').orderBy('isWinner', 'desc')
+        .where("gameId", "==", this.game.gameId)
+        .orderBy("position", "asc")
+        .orderBy("isWinner", "desc")
         .onSnapshot((querySnapshot) => {
           var participants = [];
           querySnapshot.forEach(async (doc) => {

@@ -95,6 +95,7 @@
 </template>
 <script>
 import { auth } from "@/services/fireinit.js";
+import { nodeAPIUrl } from "@/services/helpers.js";
 export default {
   data() {
     return {
@@ -174,7 +175,7 @@ export default {
     getExchangeRate: async function () {
       try {
         const result = await this.$axios.get(
-          "http://52.58.136.147/api/v0/get-exchange-rate"
+          `${nodeAPIUrl}/api/v0/get-exchange-rate`
         );
         const USDCentsInBitclout = result.data.USDCentsPerBitCloutExchangeRate;
         const centsPerDollar = 100;
