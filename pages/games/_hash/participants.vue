@@ -7,7 +7,7 @@
           src="/images/bml-back.svg"
           alt="backward button"
           class="backward-nav"
-          @click="goBack"
+          @click="$router.push('/')"
         />
         <h3 class="mnvcD-heading">Players</h3>
         <client-only>
