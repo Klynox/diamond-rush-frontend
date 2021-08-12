@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto board-wrapper">
-    <h3>Prize: 0.59 $Clout ≈ $100 USD</h3>
+    <h3>Prize: {{game.price}} &dollar;Clout ≈ &dollar;{{game.priceInDollar}} USD</h3>
     <hr class="col-9 mx-auto" />
     <div class="text-center sm-heading">Winner takes it all</div>
     <h4 class="board-info">

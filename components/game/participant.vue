@@ -11,7 +11,7 @@
             <img :src="participant.profileImage" alt="Ugochukwu" />
             <span>{{participant.username}}</span>
           </div>
-          <span class="knvm-title" v-if="gameIsClosed && participant.isWinner">Won <span class="knvm-output" :class="{ 'active': participant.isWinner }">{{price}} $Clout</span></span>
+          <span class="knvm-title" v-if="gameIsClosed && participant.isWinner">Won <span class="knvm-output" :class="{ 'active': participant.isWinner }">{{participant.reward}} $Clout</span></span>
           <span class="knvm-title" v-else>Won <span class="knvm-output">0 $Clout</span></span>
           <span class="knvm-title" v-if="gameIsClosed">Number of tries <span class="knvm-output" :class="{ 'active': participant.isWinner }">{{participant.retries}}</span></span>
           <span class="knvm-title" v-else>Number of tries <span class="knvm-output">0</span></span>
