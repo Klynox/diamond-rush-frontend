@@ -51,7 +51,7 @@ export default {
       );
     },
     gamePriceInDollar(){
-      if(!dollarPerBitclout) return 0;
+      if(!this.dollarPerBitclout) return 0;
       return (this.gamePrice / this.dollarPerBitclout).toFixed(8);
     }
   },
