@@ -1,1 +1,1 @@
-export const nodeAPIUrl = 'http://52.58.136.147/api';
+export const nodeAPIUrl = 'https://node.diamondrush.me/api';
