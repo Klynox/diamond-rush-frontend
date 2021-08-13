@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'diamond-rush',
+    title: 'Diamond Rush',
     htmlAttrs: {
       lang: 'en'
     },
@@ -80,5 +80,5 @@ export default {
   server: {
     host: "0.0.0.0"
   },
-  target: "server"
+  target: "static"
 }
