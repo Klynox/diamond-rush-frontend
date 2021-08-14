@@ -57,10 +57,11 @@
           >
         </div>
       </div>
-      <div class="my-3 d-flex flex-row justify-content-between xvhM-game-info">
-        <span class="col-4">Entry Fee:</span>
-        <span class="col-4">{{ game.entryFee }} &dollar;Clout</span>
-        <span class="col-4">&#8776; &dollar;{{ game.entryFeeInDollar }} USD</span>
+      <div class="my-3 d-flex flex-row justify-content-center xvhM-game-info">
+        <span class="">Entry Fee:</span>
+        <span class="">
+          <div>&nbsp;&nbsp;&nbsp;&#8776; &dollar;{{ game.entryFeeInDollar }} USD </div>
+          <div>&nbsp;&nbsp;&nbsp;{{ game.entryFee }} &dollar;Clout</div></span>
       </div>
     </div>
   </div>
@@ -188,7 +189,6 @@ export default {
   color: #00fff6;
 }
 .xvhM-game-info {
-  text-align: center;
   font-size: 0.8rem;
   line-height: 1.68rem;
   letter-spacing: 0px;

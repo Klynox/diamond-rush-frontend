@@ -1,10 +1,10 @@
 <template>
   <div class="mx-auto board-wrapper">
     <h3>
-      Prize: {{ gamePrice }} &dollar;Clout ≈ &dollar;{{
+      Prize: &dollar;{{
         gamePriceInDollar
       }}
-      USD
+      USD ≈ {{ gamePrice }} &dollar;Clout
     </h3>
     <hr class="col-9 mx-auto" />
     <div class="text-center sm-heading">Winner takes it all</div>
@@ -39,6 +39,7 @@ export default {
     };
   },
   created() {
+    this.getExchangeRate();
     this.getGameParticipants();
   },
   computed: {
