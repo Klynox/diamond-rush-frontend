@@ -1,1 +1,1 @@
-export const nodeAPIUrl = 'https://node.diamondrush.me';
+export const nodeAPIUrl = 'https://bitclout.com';
