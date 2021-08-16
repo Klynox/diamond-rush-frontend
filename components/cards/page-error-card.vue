@@ -14,11 +14,17 @@
     >
       <div class="error-xbhjdH">
         <slot></slot>
-        <nuxt-link to="/" class="btn xbnc-btn">Continue</nuxt-link>
+        <nuxt-link to="/" class="btn xbnc-btn" v-if="!homeBtn">Continue</nuxt-link>
+        <nuxt-link to="/" class="btn xbnc-btn" v-else>Go to home</nuxt-link>
       </div>
     </div>
   </div>
 </template>
+<script>
+export default {
+  props: ['homeBtn']
+}
+</script>
 <style lang="scss" scoped>
 .diamond-hands-notice {
   max-height: 51rem;
