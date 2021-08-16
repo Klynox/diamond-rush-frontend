@@ -8,11 +8,14 @@
             <client-only>
               <WalletInfo />
               <GameBoard v-if="activeGame" :game="activeGame" />
-              <GameBoard
-                v-for="(game, index) in games"
-                :game="game"
-                :key="index"
-              />
+              <div v-if="games.length > 0">
+                <GameBoard
+                  v-for="(game, index) in games"
+                  :game="game"
+                  :key="index"
+                />
+              </div>
+              <Preloader v-else-if="games.length < 1 && !activeGame" />
             </client-only>
           </div>
         </div>
@@ -26,11 +29,13 @@ import MobileHeader from "@/components/partials/mobile_header";
 import NavProfile from "@/components/partials/nav-profile";
 import GameBoard from "@/components/game/gameboard";
 import { DB } from "@/services/fireinit.js";
+import Preloader from "@/components/minor-preloader";
 export default {
   components: {
     MobileHeader,
     GameBoard,
     NavProfile,
+    Preloader,
     WalletInfo,
   },
   data() {
