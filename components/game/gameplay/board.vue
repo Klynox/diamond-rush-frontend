@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto col-sm-9 col-md-7 col-lg-4 mnvcD-container small-board">
     <MobileHeader class="display-mobile-flex" />
-    <LevelsWrapper :currentLevel="currentLevel"/>
+    <LevelsWrapper :currentLevel="currentLevel" />
     <GamePlayCardNav :game="game" />
     <div
       class="mnvcD-wrapper"
@@ -49,6 +49,7 @@ import GamePlayCardInfo from "@/components/game/gameplay/card-info";
 import GamePlayCardNav from "@/components/game/gameplay/card-nav";
 import WinnerShapes from "@/components/game/gameplay/mnvcD-winner-shapes";
 import LevelsWrapper from "@/components/game/gameplay/levels-trophy/wrapper";
+import { setTimeZone } from "@/services/luxon.js";
 export default {
   props: ["game", "gameIsClosed"],
   components: {
@@ -114,6 +115,14 @@ export default {
           if (!snapshot.empty) {
             const snapshotData = snapshot.docs[0].data();
             if (snapshotData.isWinner && snapshotData.isWinner == true) {
+              if (this.game.wonAt) {
+                const wonAt = new Date(this.game.wonAt.toDate()).getTime();
+                const currentTime = new Date();
+                if (currentTime < wonAt) {
+                  const songType = "won";
+                  this.$store.dispatch('game/playSound', songType);
+                }
+              }
               const payload = {
                 cards: snapshotData.cards,
                 selectedCard: snapshotData.selection,

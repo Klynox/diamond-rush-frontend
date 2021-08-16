@@ -19,6 +19,11 @@ const unselectedGameCards = [
     },
 ];
 
+const playSound = (soundType) => {
+    const audio = new Audio(`/sounds/${soundType}-rpclip.mp3`);
+    audio.play();
+}
+
 export const state = () => ({
     isOpenable: true,
     currentLevel: 1,
@@ -125,6 +130,13 @@ export const actions = {
             if (result.data.selectedCard.type == 'PAPER_HANDS') {
                 commit("game/setLevel", payload.nextLevel);
             }
+            if (!result.data.isGameWon) {
+                if (result.data.selectedCard.state == 'GOOD') {
+                    playSound('level-up');
+                } else {
+                    playSound('repeat');
+                }
+            }
             commit('resetPlay');
             commit('setLoading', false);
         } catch (err) {
@@ -132,5 +144,8 @@ export const actions = {
             console.log('An error has happened here');
             console.log(err);
         }
+    },
+    playSound(soundType) {
+        playSound(soundType);
     }
 }

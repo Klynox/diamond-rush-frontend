@@ -2,7 +2,7 @@
   <div class="container-pc">
     <div
       class="d-flex flex-row justify-content-between"
-      v-if="!isPageLoading && !gameError"
+      v-if="!isPageLoading && !gameError && !gameIsCanceled"
     >
       <div class="other-smaller-board mx-auto d-none d-lg-block">
         <ParticipantsBoard
@@ -49,6 +49,9 @@
     <PageErrorCard v-else-if="!isPageLoading && gameError">
       {{ gameError }}
     </PageErrorCard>
+    <PageErrorCard v-else-if="!isPageLoading && !gameError && gameIsCanceled">
+      Sorry, this game has been canceled.
+    </PageErrorCard>
   </div>
 </template>
 <script>
@@ -72,6 +75,11 @@ export default {
     gameIsClosed() {
       if (this.game) {
         return this.game.status == "CLOSED";
+      }
+    },
+    gameIsCanceled() {
+      if (this.game) {
+        return this.game.status == "CANCELED";
       }
     },
   },
