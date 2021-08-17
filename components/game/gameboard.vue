@@ -26,7 +26,6 @@
         
         <nuxt-link
           :to="'/games/' + game.gameId"
-          type="button"
           class="btn xvhM-action-btn"
           v-if="
             (user && balance >= game.entryFee) || (user && game.isParticipant == true)
@@ -36,17 +35,16 @@
         <a
           href="javascript:void(0)"
           @click="toggleInsufficientBalanceDialog"
-          type="button"
           class="btn xvhM-action-btn"
           v-else-if="user && balance < game.entryFee"
           >Play</a
         >
-        <nuxt-link
-          to="/sign-up"
-          type="button"
+        <a
+          href="javascript:void(0)"
+          @click="$bvModal.show('signInDialog');"
           class="btn xvhM-action-btn"
           v-else
-          >Play</nuxt-link
+          >Play</a
         >
         <div class="d-flex flex-column action-btn-info">
           <span>Round starts</span>
