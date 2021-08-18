@@ -47,8 +47,9 @@ export default {
       if (this.game.numParticipants < 1) {
         return 0;
       }
+      const commision = ((this.game.numParticipants * this.game.entryFee)/100) * this.game.commission
       return (
-        this.game.entryFee * this.game.numParticipants - this.game.commission
+        this.game.entryFee * this.game.numParticipants - commision
       );
     },
     gamePriceInDollar(){

@@ -7,12 +7,15 @@
           src="/images/bml-back.svg"
           alt="backward button"
           class="backward-nav"
-          @click="$router.push('/')"
+          @click="navigate"
         />
         <h3 class="mnvcD-heading">Players</h3>
         <client-only>
-        <ParticipantsBoard v-if="!pageLoading" :game="game"
-          :gameIsClosed="gameIsClosed" />
+          <ParticipantsBoard
+            v-if="!pageLoading"
+            :game="game"
+            :gameIsClosed="gameIsClosed"
+          />
         </client-only>
       </div>
     </div>
@@ -52,8 +55,15 @@ export default {
     isCanceled(status) {
       return status == "CANCELED";
     },
-    goBack(){
+    goBack() {
       this.$router.go(-1);
+    },
+    navigate() {
+      if (this.gameIsClosed) {
+        $router.push("/");
+        return;
+      }
+      this.goBack();
     },
     checkForParticipation: async function (gameId) {
       try {
