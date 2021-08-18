@@ -23,7 +23,7 @@
         >Congratulations HODLER</span
       >
       <span v-else-if="selectionStateType == 'MOON'"
-        >Awesome... skip the next level</span
+        >Awesome, go 2 levels up</span
       >
     </h3>
   </div>
