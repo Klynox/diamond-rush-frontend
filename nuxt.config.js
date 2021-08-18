@@ -28,10 +28,7 @@ export default {
   plugins: [
     '~/plugins/fireauth.js',
     '~/plugins/user_wallet.js',
-    {
-      src: '~/plugins/GoogleAnalytics.js',
-      mode: 'client'
-    }
+    '~/plugins/GoogleAnalytics.js',
   ],
 
   router: {
