@@ -145,7 +145,7 @@ export const actions = {
             console.log(err);
         }
     },
-    playSound(soundType) {
+    playSound({ commit }, soundType) {
         playSound(soundType);
     }
 }

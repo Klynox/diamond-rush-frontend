@@ -121,6 +121,7 @@ export default {
                 if (currentTime < wonAt) {
                   const songType = "won";
                   this.$store.dispatch('game/playSound', songType);
+                  console.log("played won sound!!!")
                 }
               }
               const payload = {
