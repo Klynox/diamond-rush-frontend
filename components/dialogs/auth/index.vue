@@ -40,7 +40,7 @@ export default {
           this.$store.commit("wallet/setBalance", wallet.balance);
           this.$store.commit("wallet/setPublicKey", wallet.publicKey);
           this.$store.dispatch("wallet/setBalanceEquivalent", wallet.balance);
-          this.$router.push("/");
+          global.location.reload()
         } else {
           const result = await DB.collection("wallets").add({
             uid: userUID,
@@ -56,7 +56,7 @@ export default {
           }
           this.$store.commit("wallet/setBalance", 0);
           this.$store.dispatch("wallet/setBalanceEquivalent", 0);
-          this.$router.push("/");
+          global.location.reload();
         }
       } catch (error) {
         console.log("Error getting document:", error);
