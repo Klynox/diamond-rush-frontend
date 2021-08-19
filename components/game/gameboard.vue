@@ -8,7 +8,7 @@
     <h3 class="xvhM-game-title">Battle Royale</h3>
     <p class="xvhM-game-type">{{ game.expectedParticipants }} Player PVP</p>
     <h2 class="px-3 xvhM-pricing">
-      Prize: {{ game.price }} &dollar;Clout &#8776; ${{
+      Prize: <span style="color: #f19de3">{{ game.price }} &dollar;Clout</span> &#8776; ${{
         game.priceInDollar
       }}
       USD
