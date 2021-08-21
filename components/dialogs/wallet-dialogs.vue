@@ -145,6 +145,8 @@ export default {
         this.withdrawalForm.amountInClout = this.cloutEquivalent;
         await this.$axios.post("/request-withdrawal", this.withdrawalForm);
         this.errorMsg = null;
+        this.clearFields();
+        this.loadingForm = false;
         this.successMsg = "Withdrawal successful!";
       } catch (err) {
         this.loadingForm = false;
@@ -156,6 +158,10 @@ export default {
         this.errorMsg =
           "Request failed. Please check your internet connection and try again.";
       }
+    },
+    clearFields: function () {
+      this.withdrawalForm.amount = null;
+      this.withdrawalForm.publicKey = null;
     },
     copyCloutAddress: function () {
       const cloutText = document.querySelector("#depositCloutAddress");
