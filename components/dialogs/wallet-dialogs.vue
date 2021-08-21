@@ -73,7 +73,7 @@
     >
       <div class="d-block text-center">
         <div class="form-caption">
-          You do not sufficient balance to play this game.<br />
+          You do not have sufficient balance to play this game.<br />
           Fund your gaming account by sending Bitclout to this public key to be
           able to participate.
         </div>
