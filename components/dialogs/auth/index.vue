@@ -29,6 +29,9 @@ export default {
           console.log(e.message);
         });
     },
+    async createWallet(userUID){
+      return await this.$axios.post("/create-wallet", {userId: userUID});
+    },
     setWallet: async function (userUID) {
       try {
         const snapshots = await DB.collection("wallets")
@@ -42,20 +45,7 @@ export default {
           this.$store.dispatch("wallet/setBalanceEquivalent", wallet.balance);
           global.location.reload()
         } else {
-          const result = await DB.collection("wallets").add({
-            uid: userUID,
-            balance: 0,
-          });
-          const querySnapshots = await DB.collection("wallets")
-            .doc(result.id)
-            .get();
-          if (querySnapshots.exists) {
-            const walletSnapshot = querySnapshots.docs[0];
-            const wallet = walletSnapshot.data();
-            this.$store.commit("wallet/setPublicKey", wallet.publicKey);
-          }
-          this.$store.commit("wallet/setBalance", 0);
-          this.$store.dispatch("wallet/setBalanceEquivalent", 0);
+          await this.createWallet(userUID);
           global.location.reload();
         }
       } catch (error) {
