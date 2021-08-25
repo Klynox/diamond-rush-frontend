@@ -3,6 +3,7 @@
     <div class="bnvc-container">
       <MobileHeader />
       <div class="bnvc-wrapping">
+        <!-- <a class="btn btn-info" @click="PVCGame">Play against CPU</a> -->
         <div class="container">
           <div class="mx-auto">
             <client-only>
@@ -84,7 +85,7 @@ export default {
     getGames: async function () {
       try {
         DB.collection("games")
-          .where("status", "==", "INACTIVE")
+          .where("status", "==", "INACTIVE").where('gameType', '==', 'PVP')
           .onSnapshot(this.loadGames);
       } catch (err) {
         console.log(err);
@@ -117,6 +118,9 @@ export default {
           });
       }
     },
+    PVCGame: async function() {
+      console.log("hello");
+    }
   },
 };
 </script>
