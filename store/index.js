@@ -2,7 +2,9 @@ import firebase, { auth, GoogleProvider } from '@/services/fireinit.js'
 
 export const state = () => ({
     user: null,
-    isLoading: true
+    isLoading: true,
+    fullpageLoading: false,
+    siteError: ''
 });
 
 export const getters = {
@@ -11,14 +13,26 @@ export const getters = {
     },
     pageLoading: (state, getters) => {
         return state.isLoading;
+    },
+    fullpageLoading: (state, getters) => {
+        return state.fullpageLoading;
+    },
+    globalSiteError: (state, getters) => {
+        return state.siteError;
     }
 }
 export const mutations = {
+    setGlobalSiteError(state, payload) {
+        state.siteError = payload;
+    },
     setUser(state, payload) {
         state.user = payload;
     },
     setPageLoader(state, payload) {
         state.isLoading = payload;
+    },
+    setFullpageLoading(state, payload) {
+        state.fullpageLoading = payload;
     }
 }
 export const actions = {

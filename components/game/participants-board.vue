@@ -1,17 +1,17 @@
 <template>
   <div class="mx-auto board-wrapper">
-    <h3>
-      Prize: &dollar;{{
-        gamePriceInDollar
-      }}
-      USD ≈ {{ gamePrice }} &dollar;Clout
+    <h3 v-if="game.gameType == 'PVP'">
+      Prize: &dollar;{{ gamePriceInDollar }} USD ≈ {{ gamePrice }} &dollar;Clout
     </h3>
-    <hr class="col-9 mx-auto" />
-    <div class="text-center sm-heading">Winner takes it all</div>
-    <h4 class="board-info">
+    <hr class="col-9 mx-auto" v-if="game.gameType == 'PVP'" />
+    <div class="text-center sm-heading" v-if="game.gameType == 'PVP'">
+      Winner takes it all
+    </div>
+    <h4 class="board-info" v-if="game.gameType == 'PVP'">
       Participants
       <span>{{ game.numParticipants }}/{{ game.expectedParticipants }}</span>
     </h4>
+    <PVCGamePrizes style="margin-bottom: 20px" class="small-prize" :settings="gameSettings" v-if="game.gameType == 'PVC' && gameSettings" />
     <Participant
       v-for="(participant, index) in participants"
       :participant="participant"
@@ -27,19 +27,25 @@
 import { DB } from "@/services/fireinit.js";
 import { nodeAPIUrl } from "@/services/helpers.js";
 import Participant from "@/components/game/participant";
+import { setTimeZone } from "@/services/luxon.js";
+import PVCGamePrizes from "@/components/game/pvc-gameprizes";
 export default {
   props: ["game", "gameIsClosed"],
   components: {
     Participant,
+    PVCGamePrizes,
   },
   data() {
     return {
       participants: [],
+      gameSettings: null,
       dollarPerBitclout: null,
     };
   },
   created() {
-    this.getExchangeRate();
+    this.getExchangeRate().then(() => {
+      this.getPVCSettings();
+    });
     this.getGameParticipants();
   },
   computed: {
@@ -47,15 +53,15 @@ export default {
       if (this.game.numParticipants < 1) {
         return 0;
       }
-      const commision = ((this.game.numParticipants * this.game.entryFee)/100) * this.game.commission
-      return (
-        ((this.game.entryFee * this.game.numParticipants) - commision) *100
-      );
+      const commision =
+        ((this.game.numParticipants * this.game.entryFee) / 100) *
+        this.game.commission;
+      return (this.game.entryFee * this.game.numParticipants - commision) * 100;
     },
-    gamePriceInDollar(){
-      if(!this.dollarPerBitclout) return 0;
+    gamePriceInDollar() {
+      if (!this.dollarPerBitclout) return 0;
       return (this.gamePrice / this.dollarPerBitclout).toFixed(8);
-    }
+    },
   },
   methods: {
     getExchangeRate: async function () {
@@ -84,6 +90,33 @@ export default {
 
           this.participants = participants;
         });
+    },
+    getPVCSettings: async function () {
+      try {
+        if (!this.dollarPerBitclout) {
+          return;
+        }
+        DB.collection("gameSettings")
+          .doc("pvc-setting")
+          .onSnapshot((snapshot) => {
+            const data = snapshot.data();
+            this.gameSettings = data;
+            this.gameSettings.entryFeeInClout = (
+              data.entryFee / this.dollarPerBitclout
+            ).toFixed(8);
+            this.gameSettings.firstPriceInBitclout = (
+              data.firstPrice / this.dollarPerBitclout
+            ).toFixed(8);
+            this.gameSettings.secondPriceInBitclout = (
+              data.secondPrice / this.dollarPerBitclout
+            ).toFixed(8);
+            this.gameSettings.thirdPriceInBitclout = (
+              data.thirdPrice / this.dollarPerBitclout
+            ).toFixed(8);
+          });
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };
