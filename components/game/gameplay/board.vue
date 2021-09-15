@@ -2,7 +2,8 @@
   <div class="mx-auto col-sm-9 col-md-7 col-lg-4 mnvcD-container small-board">
     <MobileHeader class="display-mobile-flex" />
     <LevelsWrapper :currentLevel="currentLevel" />
-    <GamePlayCardNav :game="game" />
+    <GamePlayCardNav :game="game" v-if="game.gameType == 'PVP'" />
+    <PVCGamePlayCardNav :game="game" v-else />
     <div
       class="mnvcD-wrapper"
       :class="[
@@ -47,6 +48,7 @@ import MobileHeader from "@/components/partials/mobile_header";
 import GamePlayBoardActions from "@/components/game/gameplay/board-actions";
 import GamePlayCardInfo from "@/components/game/gameplay/card-info";
 import GamePlayCardNav from "@/components/game/gameplay/card-nav";
+import PVCGamePlayCardNav from "@/components/game/gameplay/pvc-card-nav";
 import WinnerShapes from "@/components/game/gameplay/mnvcD-winner-shapes";
 import LevelsWrapper from "@/components/game/gameplay/levels-trophy/wrapper";
 import { setTimeZone } from "@/services/luxon.js";
@@ -59,6 +61,7 @@ export default {
     GamePlayCardInfo,
     GamePlayCardNav,
     WinnerShapes,
+    PVCGamePlayCardNav
   },
   data() {
     return {
