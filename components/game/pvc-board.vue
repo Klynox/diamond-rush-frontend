@@ -4,7 +4,7 @@
     <h2 class="xvhM">Be the 1st to attain "Diamond Hands"</h2>
     <PVCGamePrizes style="margin-top: 10px" :settings="gameSettings"/>
     <div class="xvhM-action-section">
-      <div class="d-flex flex-row">
+      <div class="d-flex flex-row justify-content-center">
         <a
           href="javascript:void(0)"
           @click="$emit('play');"
@@ -134,8 +134,6 @@ export default {
   color: #fff;
   font-size: 1.3rem;
   font-weight: bold;
-  margin-right: 0.49rem;
-  margin-left: 0.49rem;
 }
 .action-btn-info span {
   text-align: left;

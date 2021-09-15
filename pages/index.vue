@@ -3,14 +3,14 @@
     <div class="bnvc-container">
       <MobileHeader />
       <div class="bnvc-wrapping">
-        <a class="btn btn-info" @click="PVCGame">Play against CPU</a>
-        <a class="btn btn-info" @click="PVCGameDemo">PVC Demo</a>
         <div class="container">
           <div class="mx-auto">
             <client-only>
               <WalletInfo />
+              <a class="btn btn-info" @click="PVCGameDemo()">PVC Demo</a>
+              <a class="btn btn-primary" @click="PVCGameDemo()">Open games</a>
               <div v-if="gameSettings">
-                <GameBoard @play="PVCGame" :gameSettings="gameSettings" />
+                <GameBoard @play="PVCGame()" :gameSettings="gameSettings" />
               </div>
               <Preloader v-else-if="!gameSettings" />
             </client-only>
@@ -75,14 +75,18 @@ export default {
           .onSnapshot((snapshot) => {
             const data = snapshot.data();
             this.gameSettings = data;
-            this.gameSettings.entryFeeInClout =
-              (data.entryFee / this.dollarPerBitclout).toFixed(8);
-            this.gameSettings.firstPriceInBitclout =
-              (data.firstPrice / this.dollarPerBitclout).toFixed(8);
-            this.gameSettings.secondPriceInBitclout =
-              (data.secondPrice / this.dollarPerBitclout).toFixed(8);
-            this.gameSettings.thirdPriceInBitclout =
-              (data.thirdPrice / this.dollarPerBitclout).toFixed(8);
+            this.gameSettings.entryFeeInClout = (
+              data.entryFee / this.dollarPerBitclout
+            ).toFixed(8);
+            this.gameSettings.firstPriceInBitclout = (
+              data.firstPrice / this.dollarPerBitclout
+            ).toFixed(8);
+            this.gameSettings.secondPriceInBitclout = (
+              data.secondPrice / this.dollarPerBitclout
+            ).toFixed(8);
+            this.gameSettings.thirdPriceInBitclout = (
+              data.thirdPrice / this.dollarPerBitclout
+            ).toFixed(8);
           });
       } catch (err) {
         console.log(err);

@@ -11,8 +11,24 @@
       Participants
       <span>{{ game.numParticipants }}/{{ game.expectedParticipants }}</span>
     </h4>
-    <PVCGamePrizes style="margin-bottom: 20px" class="small-prize" :settings="gameSettings" v-if="game.gameType == 'PVC' && gameSettings" />
+    <PVCGamePrizes
+      style="margin-bottom: 20px"
+      class="small-prize"
+      :settings="gameSettings"
+      v-if="game.gameType == 'PVC' && gameSettings"
+    />
     <Participant
+      v-if="game.gameType == 'PVP'"
+      v-for="(participant, index) in participants"
+      :participant="participant"
+      :gameIsClosed="gameIsClosed"
+      :price="game.price"
+      :isFinalized="game.finalized"
+      :key="index"
+      :index="++index"
+    />
+    <PVCParticipant
+      v-else
       v-for="(participant, index) in participants"
       :participant="participant"
       :gameIsClosed="gameIsClosed"
@@ -27,13 +43,14 @@
 import { DB } from "@/services/fireinit.js";
 import { nodeAPIUrl } from "@/services/helpers.js";
 import Participant from "@/components/game/participant";
-import { setTimeZone } from "@/services/luxon.js";
+import PVCParticipant from "@/components/game/pvc-participant";
 import PVCGamePrizes from "@/components/game/pvc-gameprizes";
 export default {
   props: ["game", "gameIsClosed"],
   components: {
     Participant,
     PVCGamePrizes,
+    PVCParticipant,
   },
   data() {
     return {
