@@ -96,7 +96,7 @@ export const mutations = {
     setGameOpenability(state, payload) {
         state.isOpenable = payload;
     },
-    resetGame() {
+    resetGame(state) {
         state.currentLevel = 1;
         state.selectedGameCards = null;
         state.selectionResultCards = null;

@@ -96,6 +96,9 @@ export default {
       gameWinner: null,
     };
   },
+  unmounted() {
+    this.$store.commit("game/resetGame");
+  },
   created() {
     this.$store.commit("game/resetGame");
     if (this.user) {
