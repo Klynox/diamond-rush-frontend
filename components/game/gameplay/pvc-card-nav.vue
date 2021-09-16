@@ -57,7 +57,7 @@ export default {
     },
     updateClock() {
       var t = this.getTimeRemaining(this.gameCountDownTime);
-      this.secondsSpan = ("0" + t.seconds).slice(-2);
+      this.secondsSpan = t.seconds;
 
       if (t.total <= 0) {
         clearInterval(this.timeinterval);
