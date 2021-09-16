@@ -1,15 +1,15 @@
 <template>
-  <div
-    class="d-flex flex-column align-items-center mx-auto xvhMBoard-box">
+  <div class="d-flex flex-column align-items-center mx-auto xvhMBoard-box">
     <h2 class="xvhM">Be the 1st to attain "Diamond Hands"</h2>
-    <PVCGamePrizes style="margin-top: 10px" :settings="gameSettings"/>
+    <PVCGamePrizes style="margin-top: 10px" :settings="gameSettings" />
     <div class="xvhM-action-section">
       <div class="d-flex flex-row justify-content-center">
         <a
           href="javascript:void(0)"
-          @click="$emit('play');"
+          @click="$emit('play')"
           class="btn xvhM-action-btn"
-          v-if="user && balance >= gameSettings.entryFeeInClout">Play</a
+          v-if="user && balance >= gameSettings.entryFeeInClout"
+          >Play</a
         >
         <a
           href="javascript:void(0)"
@@ -20,27 +20,29 @@
         >
         <a
           href="javascript:void(0)"
-          @click="$bvModal.show('signInDialog');"
+          @click="$bvModal.show('signInDialog')"
           class="btn xvhM-action-btn"
           v-else
           >Play</a
         >
+        <div class="d-flex flex-column action-btn-info">
+          <span>Entry Fee:</span>
+          <span>&dollar;{{ gameSettings.entryFee }} USD&nbsp;&#8776;</span>
+          <span>{{ gameSettings.entryFeeInClout }} &dollar;Clout</span>
+        </div>
       </div>
-      <div class="my-3 d-flex flex-row justify-content-center xvhM-game-info">
-        <span class="">Entry Fee:</span>
-        <span class="">
-          <div>&nbsp;&nbsp;&nbsp;&#8776; &dollar;{{ gameSettings.entryFee }} USD </div>
-          <div>&nbsp;&nbsp;&nbsp;{{ gameSettings.entryFeeInClout }} &dollar;Clout</div></span>
+      <div class="d-flex flex-row mt-2 justify-content-center">
+        <a class="btn btn-demo" @click="$emit('playDemo')">Try Demo for free</a>
       </div>
     </div>
   </div>
 </template>
 <script>
-import PVCGamePrizes from '@/components/game/pvc-gameprizes';
+import PVCGamePrizes from "@/components/game/pvc-gameprizes";
 export default {
   props: ["gameSettings"],
   components: {
-    PVCGamePrizes
+    PVCGamePrizes,
   },
   computed: {
     user() {
@@ -117,6 +119,13 @@ export default {
   padding-bottom: 1rem;
   border-bottom: solid 0.063rem #8f6ad6;
 }
+.btn-demo {
+  color: #00fff6;
+  font-size: 0.95rem;
+  line-height: 1.85rem;
+  font-weight: bold;
+  text-decoration: underline;
+}
 .xvhM-action-section {
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -135,21 +144,12 @@ export default {
   font-size: 1.3rem;
   font-weight: bold;
 }
-.action-btn-info span {
+.action-btn-info > span {
   text-align: left;
+  margin-left: 5px;
   font-size: 0.73rem;
-  line-height: 1.38rem;
   letter-spacing: 0px;
   color: #f19de3;
-}
-.action-btn-info.left span {
-  text-align: right;
-}
-.action-btn-info .action-countdown * {
-  font-size: 0.86rem;
-  font-weight: bold;
-  margin-right: 0.313rem;
-  color: #00fff6;
 }
 .xvhM-game-info {
   font-size: 0.8rem;

@@ -7,10 +7,8 @@
           <div class="mx-auto">
             <client-only>
               <WalletInfo />
-              <a class="btn btn-info" @click="PVCGameDemo()">PVC Demo</a>
-              <a class="btn btn-primary" @click="PVCGameDemo()">Open games</a>
               <div v-if="gameSettings">
-                <GameBoard @play="PVCGame()" :gameSettings="gameSettings" />
+                <GameBoard @play="PVCGame()" @playDemo="PVCGameDemo()" :gameSettings="gameSettings" />
               </div>
               <Preloader v-else-if="!gameSettings" />
             </client-only>
