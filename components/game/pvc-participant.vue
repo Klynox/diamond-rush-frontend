@@ -15,7 +15,7 @@
           <span class="knvm-title" v-if="gameIsClosed">Number of tries <span class="knvm-output" :class="{ 'active': participant.isWinner }">{{participant.retries}}</span></span>
           <span class="knvm-title" v-else>Number of tries <span class="knvm-output">0</span></span>
         </div>
-        <span class="won-text">Won</span>
+        <span class="won-text" v-if="participant.isWinner">Won</span>
       </div>
     </div>
   </div>
