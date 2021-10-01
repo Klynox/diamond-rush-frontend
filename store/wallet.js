@@ -1,4 +1,3 @@
-import { nodeAPIUrl } from "@/services/helpers.js";
 export const state = () => ({
     balance: 0,
     usdEquivalent: 0,
@@ -25,7 +24,7 @@ export const mutations = {
 export const actions = {
     async setBalanceEquivalent({ commit }, amountInBitclout) {
         try {
-            const result = await this.$axios.get(`${nodeAPIUrl}/api/v0/get-exchange-rate`);
+          const result = await this.$axios.get(`/get-clout-price`);
             const USDCentsInBitclout = result.data.USDCentsPerBitCloutExchangeRate;
             const centsPerDollar = 100;
             const amountInDollar = (USDCentsInBitclout / centsPerDollar) * amountInBitclout;

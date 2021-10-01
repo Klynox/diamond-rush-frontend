@@ -181,7 +181,7 @@ export default {
     getExchangeRate: async function () {
       try {
         const result = await this.$axios.get(
-          `${nodeAPIUrl}/api/v0/get-exchange-rate`
+          `/get-clout-price`
         );
         const USDCentsInBitclout = result.data.USDCentsPerBitCloutExchangeRate;
         const centsPerDollar = 100;

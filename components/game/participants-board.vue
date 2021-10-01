@@ -41,7 +41,6 @@
 </template>
 <script>
 import { DB } from "@/services/fireinit.js";
-import { nodeAPIUrl } from "@/services/helpers.js";
 import Participant from "@/components/game/participant";
 import PVCParticipant from "@/components/game/pvc-participant";
 import PVCGamePrizes from "@/components/game/pvc-gameprizes";
@@ -84,7 +83,7 @@ export default {
     getExchangeRate: async function () {
       try {
         const result = await this.$axios.get(
-          `${nodeAPIUrl}/api/v0/get-exchange-rate`
+          `/get-clout-price`
         );
         const USDCentsInBitclout = result.data.USDCentsPerBitCloutExchangeRate;
         const centsPerDollar = 100;

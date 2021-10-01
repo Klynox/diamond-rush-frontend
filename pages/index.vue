@@ -24,7 +24,6 @@ import MobileHeader from "@/components/partials/mobile_header";
 import NavProfile from "@/components/partials/nav-profile";
 import GameBoard from "@/components/game/pvc-board";
 import { DB } from "@/services/fireinit.js";
-import { nodeAPIUrl } from "@/services/helpers.js";
 import Preloader from "@/components/minor-preloader";
 export default {
   components: {
@@ -54,7 +53,7 @@ export default {
     getExchangeRate: async function () {
       try {
         const result = await this.$axios.get(
-          `${nodeAPIUrl}/api/v0/get-exchange-rate`
+          `/get-clout-price`
         );
         const USDCentsInBitclout = result.data.USDCentsPerBitCloutExchangeRate;
         const centsPerDollar = 100;
