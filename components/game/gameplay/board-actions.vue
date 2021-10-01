@@ -1,10 +1,11 @@
 <template>
   <div class="mvcD-game-action-section">
+    <Preloader v-if="isPageLoading" />
     <div class="mvcD-winner" v-if="isWinner">
       <div class="mvcD-winner-background"></div>
       <div class="caption">You Have Attained 'Diamond Hands'</div>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center" v-if="isGameStarted">
       <button
         type="button"
         @click="play"
@@ -42,18 +43,38 @@
         >
       </div>
     </div>
+    <div class="d-flex justify-content-center" v-else>
+      <button
+        type="button"
+        @click="startGame"
+        class="btn xvhM-action-btn"
+      >
+        Start Game
+      </button>
+    </div>
+    <div class="d-flex justify-content-center" v-if="game.status == 'ACTIVE'">
+      <a class="btn btn-demo" @click="closeGame">End game</a>
+    </div>
   </div>
 </template>
 <script>
 import CountDownTime from "@/components/countdown";
+import Preloader from "@/components/minor-preloader";
 import { setTimeZone } from "@/services/luxon.js";
 export default {
   props: ["user", "game", "isWinner"],
+  data() {
+    return {
+      isPageLoading: false,
+      _allowGameStart: false
+    };
+  },
   components: {
     CountDownTime,
+    Preloader,
   },
   computed: {
-    gameCountDownTime(){
+    gameCountDownTime() {
       return setTimeZone(new Date(this.game.endsAt.toDate()).getTime());
     },
     isLoading() {
@@ -64,6 +85,12 @@ export default {
     },
     resultView() {
       return this.$store.state.game.showResultView;
+    },
+    isGameStarted(){
+      if(!_allowGameStart){
+        return this.game.isGameStarted != null;
+      }
+      return true;
     },
     isGameOpen() {
       return this.game.status == "ACTIVE";
@@ -94,6 +121,37 @@ export default {
     },
     toLeaderboard: function () {
       this.$router.push(`/games/${this.game.gameId}/participants`);
+    },
+    closeGame: async function () {
+      this.isPageLoading = true;
+
+      try {
+        const formData = {
+          userId: this.user.uid
+        }
+        const url = `/pvc/cancel-game/${this.game.gameId}`;
+        await this.$axios.post(url, formData);
+        this.$store.commit("game/resetGame");
+        this.$router.push("/");
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    startGame: async function () {
+      this.isPageLoading = true;
+
+      try {
+        const formData = {
+          userId: this.user.uid
+        }
+        const url = `/api/pvc/start-game/${this.game.gameId}`;
+        await this.$axios.post(url, formData);
+        this.$emit('startGame');
+        this.isPageLoading = false;
+        this._allowGameStart = true;
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };
@@ -131,5 +189,12 @@ export default {
   font-weight: bold;
   margin-right: 0.313rem;
   color: #00fff6;
+}
+.btn-demo {
+  color: #00fff6;
+  font-size: 0.95rem;
+  line-height: 1.85rem;
+  font-weight: bold;
+  text-decoration: underline;
 }
 </style>

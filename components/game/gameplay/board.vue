@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto col-sm-9 col-md-7 col-lg-4 mnvcD-container small-board">
     <MobileHeader class="display-mobile-flex" />
-    <LevelsWrapper :currentLevel="currentLevel" />
+    <LevelsWrapper :currentLevel="currentLevel" :eventbus="eventbuss" @activateGame="activateGame()" />
     <GamePlayCardNav :game="game" v-if="game.gameType == 'PVP'" />
     <PVCGamePlayCardNav :game="game" v-else />
     <div
@@ -33,7 +33,7 @@
             "
             :class="{
               'pointed-cursor':
-                isGameOpen && !isLoading && !$store.state.game.showResultView,
+                isGameOpen && !isLoading && !$store.state.game.showResultView && $store.state.game.isGameStarted != null,
             }"
           />
         </div>
@@ -66,6 +66,7 @@ export default {
   data() {
     return {
       isWinner: false,
+      eventbus: new Vue(),
     };
   },
   unmounted() {
@@ -140,9 +141,13 @@ export default {
     }
   },
   methods: {
+    activateGame() {
+      this.eventbus.$emit('activateGame');
+    },
     selectCard: function (selectedCardId) {
       if (!this.user) return;
       if (this.isLoading) return;
+      if (this.$store.state.game.isGameStarted == null) return;
       if (this.$store.state.game.showResultView) return;
       if (this.isGameOpen) {
         this.$store.commit("game/selectLevel", selectedCardId);

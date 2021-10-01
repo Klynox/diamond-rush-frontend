@@ -9,8 +9,8 @@
       hxdp-info
     "
   >
-    <span v-if="game.status == 'ACTIVE'">Your Time: {{countDown}}</span>
-    <span v-else>Your Time{{game.gameplayDuration}} secs</span>
+    <span v-if="game.status == 'ACTIVE'">Your Time: {{ countDown }}</span>
+    <span v-else>Your Time{{ game.gameplayDuration }} secs</span>
     <span>
       <nuxt-link
         :to="`/games/${game.gameId}/participants`"
@@ -24,7 +24,7 @@
 <script>
 import { setTimeZone } from "@/services/luxon.js";
 export default {
-  props: ["game"],
+  props: ["game", "eventbus"],
   data() {
     return {
       timeinterval: null,
@@ -33,15 +33,15 @@ export default {
   },
   computed: {
     gameCountDownTime() {
-      return setTimeZone(new Date(this.game.createdAt.toDate()).getTime())
+      return setTimeZone(new Date(this.game.createdAt.toDate()).getTime());
     },
     countDown() {
-        if(!this.game) return '0 secs'
+      if (!this.game) return "0 secs";
       return `${this.secondsSpan} secs`;
     },
   },
   mounted() {
-    this.initializeClock();
+    this.bus.$on("activateGame", this.initializeClock);
   },
   methods: {
     getTimeRemaining(endtime) {
@@ -63,6 +63,6 @@ export default {
         clearInterval(this.timeinterval);
       }
     },
-  }
+  },
 };
 </script>
