@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       timeinterval: null,
-      secondsSpan: null,
+      secondsSpan: 0,
     };
   },
   computed: {

@@ -1,9 +1,9 @@
 <template>
   <div class="mx-auto col-sm-9 col-md-7 col-lg-4 mnvcD-container small-board">
     <MobileHeader class="display-mobile-flex" />
-    <LevelsWrapper :currentLevel="currentLevel" :eventbus="eventbuss" @activateGame="activateGame()" />
+    <LevelsWrapper :currentLevel="currentLevel" />
     <GamePlayCardNav :game="game" v-if="game.gameType == 'PVP'" />
-    <PVCGamePlayCardNav :game="game" v-else />
+    <PVCGamePlayCardNav :game="game" :eventbus="eventbus" v-else />
     <div
       class="mnvcD-wrapper"
       :class="[
@@ -37,7 +37,7 @@
             }"
           />
         </div>
-        <GamePlayBoardActions :user="user" :game="game" :isWinner="isWinner" />
+        <GamePlayBoardActions :user="user" :game="game" @activateGame="activateGame()" :isWinner="isWinner" />
       </div>
     </div>
   </div>

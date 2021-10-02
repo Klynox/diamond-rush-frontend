@@ -146,7 +146,7 @@ export default {
         }
         const url = `/api/pvc/start-game/${this.game.gameId}`;
         await this.$axios.post(url, formData);
-        this.$emit('startGame');
+        this.$emit('activateGame');
         this.isPageLoading = false;
         this._allowGameStart = true;
       } catch (err) {
