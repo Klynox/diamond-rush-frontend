@@ -1,6 +1,5 @@
 <template>
   <div class="mvcD-game-action-section">
-    <Preloader v-if="isPageLoading" />
     <div class="mvcD-winner" v-if="isWinner">
       <div class="mvcD-winner-background"></div>
       <div class="caption">You Have Attained 'Diamond Hands'</div>
@@ -65,7 +64,6 @@ export default {
   props: ["user", "game", "isWinner"],
   data() {
     return {
-      isPageLoading: false,
       _allowGameStart: false
     };
   },
@@ -123,7 +121,7 @@ export default {
       this.$router.push(`/games/${this.game.gameId}/participants`);
     },
     closeGame: async function () {
-      this.isPageLoading = true;
+      this.$store.commit("setFullpageLoading", true);
 
       try {
         const formData = {
@@ -132,13 +130,14 @@ export default {
         const url = `/pvc/cancel-game/${this.game.gameId}`;
         await this.$axios.post(url, formData);
         this.$store.commit("game/resetGame");
+        this.$store.commit("setFullpageLoading", false);
         this.$router.push("/");
       } catch (err) {
         console.log(err);
       }
     },
     startGame: async function () {
-      this.isPageLoading = true;
+      this.$store.commit("setFullpageLoading", true);
 
       try {
         const formData = {
@@ -147,7 +146,7 @@ export default {
         const url = `/api/pvc/start-game/${this.game.gameId}`;
         await this.$axios.post(url, formData);
         this.$emit('activateGame');
-        this.isPageLoading = false;
+        this.$store.commit("setFullpageLoading", false);
         this._allowGameStart = true;
       } catch (err) {
         console.log(err);
