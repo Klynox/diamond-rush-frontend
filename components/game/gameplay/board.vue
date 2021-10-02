@@ -51,7 +51,7 @@ import GamePlayCardNav from "@/components/game/gameplay/card-nav";
 import PVCGamePlayCardNav from "@/components/game/gameplay/pvc-card-nav";
 import WinnerShapes from "@/components/game/gameplay/mnvcD-winner-shapes";
 import LevelsWrapper from "@/components/game/gameplay/levels-trophy/wrapper";
-import { setTimeZone } from "@/services/luxon.js";
+import Vue from 'vue';
 export default {
   props: ["game", "gameIsClosed"],
   components: {

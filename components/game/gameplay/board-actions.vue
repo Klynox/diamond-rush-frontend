@@ -87,7 +87,7 @@ export default {
       return this.$store.state.game.showResultView;
     },
     isGameStarted(){
-      if(!_allowGameStart){
+      if(!this._allowGameStart){
         return this.game.isGameStarted != null;
       }
       return true;
