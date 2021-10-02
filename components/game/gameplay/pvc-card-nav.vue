@@ -41,7 +41,7 @@ export default {
     },
   },
   mounted() {
-    this.bus.$on("activateGame", this.initializeClock);
+    this.eventbus.$on("activateGame", this.initializeClock);
   },
   methods: {
     getTimeRemaining(endtime) {
