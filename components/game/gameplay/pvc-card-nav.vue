@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     gameCountDownTime() {
-      return setTimeZone(new Date(this.game.createdAt.toDate()).getTime());
+      return setTimeZone(new Date(this.game.isGameStarted.toDate()).getTime());
     },
     countDown() {
       if (!this.game) return "0 secs";
