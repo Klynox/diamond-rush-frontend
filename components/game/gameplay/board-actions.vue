@@ -143,7 +143,7 @@ export default {
         const formData = {
           userId: this.user.uid
         }
-        const url = `/api/pvc/start-game/${this.game.gameId}`;
+        const url = `/pvc/start-game/${this.game.gameId}`;
         await this.$axios.post(url, formData);
         this.$emit('activateGame');
         this.$store.commit("setFullpageLoading", false);
